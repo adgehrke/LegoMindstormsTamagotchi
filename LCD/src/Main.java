@@ -14,12 +14,27 @@ import lejos.utility.Delay;
 public class Main {
 	private static RegulatedMotor m = new EV3LargeRegulatedMotor(MotorPort.D);
 	private static RegulatedMotor m1 = new EV3LargeRegulatedMotor(MotorPort.A);
-	//private static RegulatedMotor m2 = new EV3LargeRegulatedMotor(MotorPort.C);
+	private static RegulatedMotor m2 = new EV3LargeRegulatedMotor(MotorPort.C);
 	
 
 	public static void main(String[] args){
-		new Tamagotchi();
+		//new Tamagotchi();
 		
+		
+		Emotion em = new Emotion(m,m1,m2);
+		em.start();
+	    EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
+
+	    SimpleTouch touch=new SimpleTouch(sensor);
+		
+		while (true) {
+	    	if (touch.isPressed()){
+	    		em.terminate();
+	    		break;
+	    	}
+		}
+		
+		/*
 		m.setSpeed(300);
 		m1.setSpeed(300);
 
@@ -47,6 +62,7 @@ public class Main {
 	    	}
 	      Delay.msDelay(150);
 	    }
+	    */
 
 
 	}
