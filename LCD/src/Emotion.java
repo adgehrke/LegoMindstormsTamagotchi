@@ -1,4 +1,7 @@
 
+import java.io.File;
+
+import lejos.hardware.Sound;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
@@ -37,9 +40,37 @@ public class Emotion extends Thread {
 	 * @return
 	 */
 	public boolean happy(){
+		terminated = false;
+		//motorLeft.setSpeed(300);
+		//motorRight.setSpeed(300);
+		motorHead.setSpeed(700);
+		driveRight();
+		while(!terminated){
+			Sound.setVolume(100);
+			Sound.playSample(new File("dog_bark.wav"));
+			
 
-		return false;
+			motorHead.rotate(1000);
+			motorHead.rotate(-2000);
+			motorHead.rotate(1000);
+
+		}
+		return true;
 		
+	}
+	
+	private void driveRight(){
+		motorRight.setSpeed(400);
+		motorLeft.setSpeed(400);
+		motorLeft.backward();
+		motorRight.forward();
+	}
+	
+	private void driveLeft(){
+		motorRight.setSpeed(700);
+		motorLeft.setSpeed(100);
+		motorRight.backward();
+		motorLeft.forward();
 	}
 	
 	/**
@@ -105,7 +136,7 @@ public class Emotion extends Thread {
 	
 	@Override
 	public void run(){
-		if(bored()){
+		if(happy()){
 			return;
 		}
 	}
