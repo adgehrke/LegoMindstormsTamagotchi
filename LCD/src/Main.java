@@ -3,7 +3,6 @@ import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.RegulatedMotor;
-import lejos.utility.Delay;
 //Farbsensor 4
 // Touchs 1
 // Motoren r. A
@@ -11,12 +10,18 @@ import lejos.utility.Delay;
 // Kopfmotor C
 
 
+/**
+ *
+ */
 public class Main {
 	private static RegulatedMotor m = new EV3LargeRegulatedMotor(MotorPort.D);
 	private static RegulatedMotor m1 = new EV3LargeRegulatedMotor(MotorPort.A);
 	private static RegulatedMotor m2 = new EV3LargeRegulatedMotor(MotorPort.C);
 	
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args){
 		//new Tamagotchi();
 		

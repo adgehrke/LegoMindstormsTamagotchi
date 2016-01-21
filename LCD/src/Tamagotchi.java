@@ -8,6 +8,9 @@ import java.io.File;
 
 import javax.swing.Timer;
  
+/**
+ *
+ */
 public class Tamagotchi {
 	
 	
@@ -25,6 +28,9 @@ public class Tamagotchi {
 	int[] food = new int[2];
 	
 	
+	/**
+	 * 
+	 */
 	private void newDay(){
 		Sound.playSample(new File("growl.wav"));
 		age++;
@@ -52,14 +58,23 @@ public class Tamagotchi {
 
 	}
 	
+	/**
+	 * 
+	 */
 	private void die(){
 		LCD.drawString("ich bin tot :(", 0, 7);
 	}
 	
+	/**
+	 * @param wellbeing
+	 */
 	private void warn(int wellbeing){
 		LCD.drawString("mir geht es schlecht :( "+wellbeing, 0, 7);
 	}
 	
+	/**
+	 * 
+	 */
 	private void calcNewHealth(){
 		// health Function
 		// 0-25		PRIO => 100-age
@@ -84,6 +99,9 @@ public class Tamagotchi {
 		health[0]-=difference;
 	}
 	
+	/**
+	 * 
+	 */
 	public Tamagotchi(){
 		health[0] = sleep[0] = fun[0] = food[0] = 100;
 		health[1] = sleep[1] = fun[1] = food[1] = 50;

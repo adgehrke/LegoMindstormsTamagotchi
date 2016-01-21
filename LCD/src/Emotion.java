@@ -1,9 +1,11 @@
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.port.MotorPort;
+
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
 
+/**
+ *
+ */
 public class Emotion extends Thread {
 	
 	
@@ -13,6 +15,11 @@ public class Emotion extends Thread {
 	
 	private boolean terminated = false;
 	
+	/**
+	 * @param left
+	 * @param right
+	 * @param head
+	 */
 	public Emotion(RegulatedMotor left, RegulatedMotor right,RegulatedMotor head){
 		motorLeft = left;
 		motorRight = right;
@@ -25,9 +32,9 @@ public class Emotion extends Thread {
 	public void terminate(){
 		terminated = true;
 	}
-	
-	/*
-	 * 
+
+	/**
+	 * @return
 	 */
 	public boolean happy(){
 
@@ -35,12 +42,18 @@ public class Emotion extends Thread {
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean unhappy(){
 		
 		return false;
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean bored(){
 		terminated = false;
 		//motorLeft.setSpeed(300);
@@ -63,18 +76,27 @@ public class Emotion extends Thread {
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean excited(){
 		
 		return false;
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean scared(){
 		
 		return false;
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean offended(){
 		
 		return false;
