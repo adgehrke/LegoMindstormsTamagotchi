@@ -1,11 +1,8 @@
 import lejos.hardware.lcd.GraphicsLCD;
-import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-
 import javax.swing.Timer;
  
 /**

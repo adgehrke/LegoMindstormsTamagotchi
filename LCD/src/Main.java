@@ -25,8 +25,34 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		//new Tamagotchi();
+		new Tamagotchi();
 		
+		//testUltrasonicSensor();
+		//testEmotion();
+		finishAfterButtonPress();
+		
+	}
+	
+	private static void finishAfterButtonPress(){
+		EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
+		SimpleTouch touch=new SimpleTouch(sensor);
+		
+		while (true) {
+	    	if (touch.isPressed()){
+	    		break;
+	    	}
+		}
+	}
+	
+	private static void testEmotion(){
+		Emotion em = new Emotion(m,m1,m2);
+		em.start();
+	    
+	    
+		
+	}
+	
+	private static void testUltrasonicSensor(){
 		UltrasonicSensor us = new UltrasonicSensor("S2");
 		us.start();
 		us.setActive(true);
@@ -34,49 +60,5 @@ public class Main {
 			LCD.drawString("UltraSonic"+us.getData(), 0, 1);
 			Delay.msDelay(1000);
 		}
-		/*Emotion em = new Emotion(m,m1,m2);
-		em.start();
-	    EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
-
-	    SimpleTouch touch=new SimpleTouch(sensor);
-		
-		while (true) {
-	    	if (touch.isPressed()){
-	    		em.terminate();
-	    		break;
-	    	}
-		}
-		
-		/*
-		m.setSpeed(300);
-		m1.setSpeed(300);
-
-		
-		 
-
-	    EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
-
-	    SimpleTouch touch=new SimpleTouch(sensor);
-	    
-	    boolean drive = false;
-	    while (true) {
-	    	if (touch.isPressed()){
-	    		if (drive){ 
-	    			m.stop(); 
-	    			m1.stop(); 
-	    			
-	    		}
-	    		else{ 
-	    			m.backward(); 
-	    			m1.backward(); 
-	    			
-	    		}
-	    		drive = !drive;
-	    	}
-	      Delay.msDelay(150);
-	    }
-	    */
-
-
 	}
 }
