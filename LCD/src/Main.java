@@ -1,3 +1,4 @@
+import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
@@ -8,6 +9,7 @@ import lejos.robotics.RegulatedMotor;
 // Motoren r. A
 // Motor   l. D
 // Kopfmotor C
+import lejos.utility.Delay;
 
 
 /**
@@ -25,8 +27,14 @@ public class Main {
 	public static void main(String[] args){
 		//new Tamagotchi();
 		
-		
-		Emotion em = new Emotion(m,m1,m2);
+		UltrasonicSensor us = new UltrasonicSensor("S2");
+		us.start();
+		us.setActive(true);
+		while(true){
+			LCD.drawString("UltraSonic"+us.getData(), 0, 1);
+			Delay.msDelay(1000);
+		}
+		/*Emotion em = new Emotion(m,m1,m2);
 		em.start();
 	    EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
 
