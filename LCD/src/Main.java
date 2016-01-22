@@ -25,8 +25,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		new Tamagotchi();
-		
+		//new Tamagotchi();
 		//testUltrasonicSensor();
 		testEmotion();
 		//finishAfterButtonPress();
@@ -63,11 +62,17 @@ public class Main {
 		
 	}
 	
-	private static void testUltrasonicSensor(){
+	private static void testSensors(){
+		ColorSensor co = new ColorSensor("S4");
+		co.start();
+		co.setActive(true);
+		
 		UltrasonicSensor us = new UltrasonicSensor("S2");
 		us.start();
 		us.setActive(true);
+		
 		while(true){
+			LCD.drawString("Color"+co.getData(), 0, 2);
 			LCD.drawString("UltraSonic"+us.getData(), 0, 1);
 			Delay.msDelay(1000);
 		}
