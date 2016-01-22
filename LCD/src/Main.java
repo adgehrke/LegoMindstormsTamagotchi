@@ -45,8 +45,17 @@ public class Main {
 	}
 	
 	private static void testEmotion(){
+		EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
+		SimpleTouch touch=new SimpleTouch(sensor);
 		Emotion em = new Emotion(m,m1,m2);
 		em.start();
+		while (true) {
+	    	if (touch.isPressed()){
+	    		em.terminate();
+	    		break;
+	    	}
+		}
+		
 	}
 	
 	private static void testUltrasonicSensor(){
