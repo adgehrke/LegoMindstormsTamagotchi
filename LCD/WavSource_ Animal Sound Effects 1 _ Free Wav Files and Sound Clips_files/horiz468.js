@@ -1,1 +1,0 @@
-document.write('<IFRAME style="vertical-align:middle; text-align:center; height:280px; margin-top:8px; margin-bottom:8px" name="horiz468" frameborder=0 marginwidth=0 marginheight=0 scrolling="no" width="100%" SRC="/ads/horiz2col2.htm"></IFRAME>');
