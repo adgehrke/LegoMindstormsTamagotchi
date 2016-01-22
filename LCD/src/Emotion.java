@@ -46,15 +46,17 @@ public class Emotion extends Thread {
 	}
 
 	/**
+	 * 
+	 * Stillstehen, blinzeln, Kopf auf und ab
 	 * @return
 	 */
-	public boolean happy(){
+	public boolean normal(){
 		terminated = false;
 		//motorLeft.setSpeed(300);
 		//motorRight.setSpeed(300);
 		motorHead.setSpeed(900);
-		//driveRight();
-		//sound.start();
+		driveRight();
+		sound.start();
 		while(!terminated){
 			System.out.println(motorHead.getTachoCount());
 			
@@ -81,24 +83,13 @@ public class Emotion extends Thread {
 		motorRight.forward();
 	}
 	
-	private void driveLeft(){
-		motorRight.setSpeed(700);
-		motorLeft.setSpeed(100);
-		motorRight.backward();
-		motorLeft.forward();
-	}
-	
 	/**
 	 * @return
-	 */
-	public boolean unhappy(){
-		
-		return false;
-		
-	}
-	
-	/**
-	 * @return
+	 * Display: Augen groß
+	 * Sound: Wuiiuuuu
+	 * Kopf: hoch-rutner-schnell
+	 * Motor: vor+zurück
+	 * er will spielen
 	 */
 	public boolean bored(){
 		terminated = false;
@@ -124,6 +115,7 @@ public class Emotion extends Thread {
 	
 	/**
 	 * @return
+	 * im Kreis drehen, kreischen
 	 */
 	public boolean excited(){
 		
@@ -133,15 +125,7 @@ public class Emotion extends Thread {
 	
 	/**
 	 * @return
-	 */
-	public boolean scared(){
-		
-		return false;
-		
-	}
-	
-	/**
-	 * @return
+	 * zurückfahren+böser Blick
 	 */
 	public boolean offended(){
 		
@@ -149,9 +133,76 @@ public class Emotion extends Thread {
 		
 	}
 	
+	
+	/*
+	 * er will Medizin
+	 * 
+	 * Display: Augen halb geschlossen
+	 * Sound: halb am sterben
+	 * Motor: Langsame Schlangen-Bewegung
+	 * Kopf: Kopf nach unten
+	 */
+	public boolean ill(){
+		return false;
+	}
+	
+	/*
+	 * Hunger
+	 * Display: Augen auf
+	 * Sound: schreien
+	 * Motor: Langsame Bewegung
+	 * Kopf: Kopf nach oben
+	 */
+	public boolean hungry(){
+		return false;
+	}
+	
+	/*
+	 * Kopf: Head down 
+	 * Sound: gähn-sound 
+	 * Display: Augen schmaler 
+	 * Bewegung: keine Bewegung
+	 * Er will schlafen
+	 */
+	public boolean tired(){
+		motorHead.rotate(2000);
+		motorHead.setSpeed(200);
+		
+		while(!terminated){
+			motorHead.rotate(-300);
+			if(terminated){
+				return false;
+			}
+			motorHead.rotate(300);
+		}
+		return true;
+	}
+	
+	/*
+	 * 
+	 * Kopf: nach untten
+	 * Display: Augen schuldbewusst, traurig
+	 * 
+	 */
+	public boolean dirty(){
+		return false;
+	}
+	
+	
+	/*
+	 * Kopf: runter
+	 * Augen: zu Kreuzen
+	 * Bewegung: Rückartig vorwärts, dann stillstand
+	 * Sound: Röcheln
+	 */
+	public boolean dying(){
+		return false;
+	}
+	
+	
 	@Override
 	public void run(){
-		if(happy()){
+		if(normal()){
 			return;
 		}
 	}

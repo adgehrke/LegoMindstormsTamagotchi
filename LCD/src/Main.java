@@ -28,8 +28,8 @@ public class Main {
 		new Tamagotchi();
 		
 		//testUltrasonicSensor();
-		//testEmotion();
-		finishAfterButtonPress();
+		testEmotion();
+		//finishAfterButtonPress();
 		
 	}
 	
@@ -52,6 +52,11 @@ public class Main {
 		while (true) {
 	    	if (touch.isPressed()){
 	    		em.terminate();
+	    		break;
+	    	}
+		}
+		while (true) {
+	    	if (touch.isPressed()){
 	    		break;
 	    	}
 		}
