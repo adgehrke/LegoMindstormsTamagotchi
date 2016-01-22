@@ -33,6 +33,7 @@ public class Emotion extends Thread {
 	 *End every running Emotion and go back to Initial Position 
 	 */
 	public void terminate(){
+		System.out.println(motorHead.getTachoCount());
 		terminated = true;
 	}
 
@@ -46,6 +47,7 @@ public class Emotion extends Thread {
 		motorHead.setSpeed(700);
 		driveRight();
 		while(!terminated){
+			System.out.println(motorHead.getTachoCount());
 			Sound.setVolume(100);
 			Sound.playSample(new File("dog_bark.wav"));
 			
