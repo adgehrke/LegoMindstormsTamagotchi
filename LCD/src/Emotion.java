@@ -15,7 +15,7 @@ public class Emotion extends Thread {
 	private static RegulatedMotor motorLeft;// = new EV3LargeRegulatedMotor(MotorPort.D);
 	private static RegulatedMotor motorRight;// = new EV3LargeRegulatedMotor(MotorPort.A);
 	private static RegulatedMotor motorHead;// = new EV3LargeRegulatedMotor(MotorPort.C);
-	
+	private static Sounds sound = new Sounds();
 	private boolean terminated = false;
 	
 	/**
@@ -35,6 +35,7 @@ public class Emotion extends Thread {
 	public void terminate(){
 		System.out.println(motorHead.getTachoCount());
 		terminated = true;
+		sound.terminate();
 	}
 
 	/**
@@ -44,12 +45,11 @@ public class Emotion extends Thread {
 		terminated = false;
 		//motorLeft.setSpeed(300);
 		//motorRight.setSpeed(300);
-		motorHead.setSpeed(700);
-		driveRight();
+		motorHead.setSpeed(900);
+		//driveRight();
+		sound.start();
 		while(!terminated){
 			System.out.println(motorHead.getTachoCount());
-			Sound.setVolume(100);
-			Sound.playSample(new File("dog_bark.wav"));
 			
 
 			motorHead.rotate(1000);

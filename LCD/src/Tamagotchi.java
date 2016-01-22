@@ -32,7 +32,7 @@ public class Tamagotchi {
 	 * 
 	 */
 	private void newDay(){
-		Sound.playSample(new File("growl.wav"));
+
 		age++;
 		
 		calcNewHealth();
