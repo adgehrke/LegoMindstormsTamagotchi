@@ -36,6 +36,13 @@ public class Emotion extends Thread {
 		System.out.println(motorHead.getTachoCount());
 		terminated = true;
 		sound.terminate();
+		motorLeft.stop();
+		motorRight.stop();
+		motorHead.stop();
+		System.out.println(motorHead.getTachoCount());
+		motorHead.rotateTo(0);
+		System.out.println(motorHead.getTachoCount());
+		
 	}
 
 	/**
@@ -47,13 +54,19 @@ public class Emotion extends Thread {
 		//motorRight.setSpeed(300);
 		motorHead.setSpeed(900);
 		//driveRight();
-		sound.start();
+		//sound.start();
 		while(!terminated){
 			System.out.println(motorHead.getTachoCount());
 			
 
 			motorHead.rotate(1000);
+			if(terminated){
+				return false;
+			}
 			motorHead.rotate(-2000);
+			if(terminated){
+				return false;
+			}
 			motorHead.rotate(1000);
 
 		}

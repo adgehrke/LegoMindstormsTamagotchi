@@ -26,15 +26,15 @@ public class Main {
 	 */
 	public static void main(String[] args){
 		//new Tamagotchi();
-		
+		/*
 		UltrasonicSensor us = new UltrasonicSensor("S2");
 		us.start();
 		us.setActive(true);
 		while(true){
 			LCD.drawString("UltraSonic"+us.getData(), 0, 1);
 			Delay.msDelay(1000);
-		}
-		/*Emotion em = new Emotion(m,m1,m2);
+		}*/
+		Emotion em = new Emotion(m,m1,m2);
 		em.start();
 	    EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
 
@@ -47,6 +47,12 @@ public class Main {
 	    	}
 		}
 		
+		while (true) {
+	    	if (touch.isPressed()){
+	    		//em.terminate();
+	    		break;
+	    	}
+		}
 		/*
 		m.setSpeed(300);
 		m1.setSpeed(300);
