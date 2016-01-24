@@ -6,7 +6,7 @@ import lejos.hardware.lcd.GraphicsLCD;
 import lejos.utility.Delay;
 
 // size of display: 178 x 128
-public class Display{
+public class Display extends Thread{
 	private GraphicsLCD lcd;
 	private int height;
 	private int width;
@@ -24,6 +24,9 @@ public class Display{
 		yOffset = (this.height-eyesHeight)/2+10;
 		eyesHeight = 70;
 		eyesWidth = 50;
+	}
+	
+	public void run(){
 	}
 	
 	public void drawEyes(){

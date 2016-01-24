@@ -35,6 +35,7 @@ public class Main {
 	
 	private static void testDisplay(){
 		Display disp = new Display();
+		disp.start();
 		while(true){
 			int delay = 5000;
 			disp.healing();
