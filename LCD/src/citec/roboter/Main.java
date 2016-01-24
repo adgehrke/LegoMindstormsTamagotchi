@@ -33,6 +33,40 @@ public class Main {
 		
 	}
 	
+	private static void testDisplay(){
+		Display disp = new Display();
+		while(true){
+			int delay = 5000;
+			disp.healing();
+			Delay.msDelay(delay);
+			
+			disp.playing();
+			Delay.msDelay(delay);
+			disp.sleeping();
+			Delay.msDelay(delay);
+			
+			
+			
+			disp.tired();
+			Delay.msDelay(delay);
+			disp.normal();
+			Delay.msDelay(delay);
+			disp.offended();
+			Delay.msDelay(delay);
+			disp.happy();
+			Delay.msDelay(delay);
+			disp.bored();
+			Delay.msDelay(delay);
+			disp.ill();
+			Delay.msDelay(delay);
+			disp.hungry();
+			Delay.msDelay(delay);
+			disp.dying();
+			Delay.msDelay(delay);
+		}
+		
+	}
+	
 	private static void finishAfterButtonPress(){
 		EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
 		SimpleTouch touch=new SimpleTouch(sensor);
