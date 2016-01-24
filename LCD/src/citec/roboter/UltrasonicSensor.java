@@ -1,20 +1,21 @@
+package citec.roboter;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
-public class ColorSensor extends Thread{
+public class UltrasonicSensor extends Thread{
 	private String port;
 	private SensorModes sensor;
 	private float[] data;
-	private SampleProvider color;
+	private SampleProvider distance;
 	private boolean active;
 	
-	public ColorSensor(String port){
-		this.port = "S4";
-		this.sensor = new EV3ColorSensor(LocalEV3.get().getPort(port)); 
-		this.color = sensor.getMode("ColorID"); 
-		this.data =  new float[color.sampleSize()];
+	public UltrasonicSensor(String port){
+		this.port = port;
+		this.sensor = new EV3UltrasonicSensor(LocalEV3.get().getPort("S2")); 
+		this.distance = sensor.getMode("Distance"); 
+		this.data =  new float[distance.sampleSize()];
 		this.active = false;
 	}
 
@@ -28,7 +29,7 @@ public class ColorSensor extends Thread{
 	}
 	
 	private void fetchData(){
-		color.fetchSample(this.data,0);
+		distance.fetchSample(this.data,0);
 	}
 
 	public SensorModes getSensor() {
@@ -74,16 +75,14 @@ public class ColorSensor extends Thread{
 	}
 
 
-	public SampleProvider getColor() {
-		return color;
+	public SampleProvider getDistance() {
+		return distance;
 	}
 
 
-	public void setColor(SampleProvider color) {
-		this.color = color;
+	public void setDistance(SampleProvider distance) {
+		this.distance = distance;
 	}
-
-
 	@Override
 	public void run(){
 		

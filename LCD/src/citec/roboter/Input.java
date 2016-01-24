@@ -1,3 +1,4 @@
+package citec.roboter;
 
 public class Input {
 
