@@ -13,10 +13,10 @@ public class Need implements Comparable<Need>{
 	private Integer priority;
 	private Emotion underThreshold;
 	
-	private List<Level> boundaries = new ArrayList<>();
+	private List<int[]> boundaries = new ArrayList<>();
 	
 	public void addBoundary(int toAge, int value, Emotion emotion){
-		boundaries.add(new Level(toAge,value,emotion));
+		boundaries.add(new int[]{toAge,value});
 	}
 	
 	public void calculatePriority(int age){
