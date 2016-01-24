@@ -23,9 +23,9 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		//new Tamagotchi();
+		new Tamagotchi();
 		//testUltrasonicSensor();
-		testEmotion();
+		//testEmotion();
 		//finishAfterButtonPress();
 		
 	}
