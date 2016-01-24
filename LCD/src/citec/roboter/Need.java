@@ -6,7 +6,7 @@ import java.util.List;
 
 import Emotion.Emotion;
 
-public class Need {
+public class Need implements Comparable<Need>{
 	
 	private String name;
 	private int value;
@@ -72,6 +72,11 @@ public class Need {
 
 	public void setPriority(int priority) {
 		this.priority = priority;
+	}
+
+	@Override
+	public int compareTo(Need o) {
+		return this.getPriority().compareTo(o.getPriority());
 	}
 
 

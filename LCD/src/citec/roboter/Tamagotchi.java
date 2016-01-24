@@ -41,6 +41,7 @@ public class Tamagotchi {
 	Need fun = new Need();
 	Need food = new Need();
 
+	
 	List<Need> needs = new ArrayList<>();
 
 	Integer emotionThreshold = 50;
