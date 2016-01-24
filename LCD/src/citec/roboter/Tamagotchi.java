@@ -10,6 +10,7 @@ import lejos.robotics.RegulatedMotor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -40,7 +41,6 @@ public class Tamagotchi {
 	Need sleep = new Need();
 	Need fun = new Need();
 	Need food = new Need();
-
 	
 	List<Need> needs = new ArrayList<>();
 
@@ -105,7 +105,7 @@ public class Tamagotchi {
 	}
 
 	private void calculateEmotion() {
-		needs.sort(new NeedComperator());
+		Collections.sort(needs);
 		for (Need need : needs) {
 			if (need.getValue() < emotionThreshold) {
 				if (shownEmotion != need.getEmotion()) {
