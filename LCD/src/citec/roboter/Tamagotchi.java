@@ -15,11 +15,10 @@ import java.util.List;
 
 import javax.swing.Timer;
 
-import Emotion.Bored;
-import Emotion.Emotion;
-import Emotion.Hungry;
-import Emotion.Ill;
-import Emotion.Tired;
+import citec.Threads.Display;
+import citec.Threads.Sounds;
+import Emotion.Emotions;
+
 
 /**
  *
@@ -29,10 +28,9 @@ public class Tamagotchi {
 	int speed = 2000;
 	Tamagotchi tamagotchi;
 	GraphicsLCD gLCD = LocalEV3.get().getGraphicsLCD();
-	Timer t;
-	Emotion shownEmotion;
-	Emotion normalEmotion;
-	Emotion dyingEmotion;
+	Emotions shownEmotion = Emotions.Normal;
+	Emotions normalEmotion = Emotions.Normal;
+	Emotions dyingEmotion = Emotions.Dying;
 
 	private int age;
 
@@ -45,10 +43,10 @@ public class Tamagotchi {
 	List<Need> needs = new ArrayList<>();
 
 	Integer emotionThreshold = 50;
-
-	private static RegulatedMotor m = new EV3LargeRegulatedMotor(MotorPort.D);
-	private static RegulatedMotor m1 = new EV3LargeRegulatedMotor(MotorPort.A);
-	private static RegulatedMotor m2 = new EV3LargeRegulatedMotor(MotorPort.C);
+	
+	Display display = new Display();
+	//Motor motor = new Motor();
+	Sounds sound = new Sounds();
 	
 	/**
 	 * 
@@ -56,32 +54,32 @@ public class Tamagotchi {
 	
 	public Tamagotchi() {
 		health.setName("health");
-		health.setEmotion(new Ill(m,m1,m2));
-		health.addBoundary(10, 10, null);
-		health.addBoundary(20, 5, null);
-		health.addBoundary(60, 2, null);
-		health.addBoundary(80, 10, null);
+		health.setEmotion(Emotions.Ill);
+		health.addBoundary(10, 10);
+		health.addBoundary(20, 5);
+		health.addBoundary(60, 2);
+		health.addBoundary(80, 10);
 		
 		sleep.setName("sleep");
-		sleep.setEmotion(new Tired(m,m1,m2));
-		health.addBoundary(10, 10, null);
-		health.addBoundary(20, 5, null);
-		health.addBoundary(60, 2, null);
-		health.addBoundary(80, 10, null);
+		sleep.setEmotion(Emotions.Tired);
+		health.addBoundary(10, 10);
+		health.addBoundary(20, 5);
+		health.addBoundary(60, 2);
+		health.addBoundary(80, 10);
 		
 		fun.setName("fun");
-		fun.setEmotion(new Bored(m,m1,m2));
-		health.addBoundary(10, 10, null);
-		health.addBoundary(20, 8, null);
-		health.addBoundary(60, 5, null);
-		health.addBoundary(80, 2, null);
+		fun.setEmotion(Emotions.Bored);
+		health.addBoundary(10, 10);
+		health.addBoundary(20, 8);
+		health.addBoundary(60, 5);
+		health.addBoundary(80, 2);
 		
 		food.setName("food");
-		food.setEmotion(new Hungry(m,m1,m2));
-		health.addBoundary(10, 8, null);
-		health.addBoundary(20, 10, null);
-		health.addBoundary(60, 6, null);
-		health.addBoundary(80, 3, null);
+		food.setEmotion(Emotions.Hungry);
+		health.addBoundary(10, 8);
+		health.addBoundary(20, 10);
+		health.addBoundary(60, 6);
+		health.addBoundary(80, 3);
 		
 		needs.add(health);
 		needs.add(sleep);
@@ -94,32 +92,33 @@ public class Tamagotchi {
 
 		age = 0;
 
-		t = new Timer(speed, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				newDay();
-			}
-		});
-		t.setRepeats(true);
-		t.start();
+		
+		//motor.start();
+		display.start();
+		sound.start();
+		while(true){
+			newDay();
+		}
 	}
 
 	private void calculateEmotion() {
 		Collections.sort(needs);
 		for (Need need : needs) {
 			if (need.getValue() < emotionThreshold) {
-				if (shownEmotion != need.getEmotion()) {
-					shownEmotion.terminate();
+				if (shownEmotion != need.getEmotion()) {;
 					shownEmotion = need.getEmotion();
-					shownEmotion.start();
+					display.setEmotion(shownEmotion);
+					sound.setEmotion(shownEmotion);
+					//motor.setEmotion(shownEmotion);
 					return;
 				}
 			}
 		}
 		if (shownEmotion != normalEmotion) {
-			shownEmotion.terminate();
 			shownEmotion = normalEmotion;
-			shownEmotion.start();
+			display.setEmotion(shownEmotion);
+			sound.setEmotion(shownEmotion);
+			//motor.setEmotion(shownEmotion);
 			return;
 		}
 		
@@ -139,9 +138,10 @@ public class Tamagotchi {
 		wellbeing = wellbeing / 5;
 		if(wellbeing<10){
 			if (shownEmotion != dyingEmotion) {
-				shownEmotion.terminate();
 				shownEmotion = dyingEmotion;
-				shownEmotion.start();
+				display.setEmotion(shownEmotion);
+				sound.setEmotion(shownEmotion);
+				//motor.setEmotion(shownEmotion);
 				return;
 			}
 		}

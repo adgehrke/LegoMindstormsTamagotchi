@@ -1,6 +1,7 @@
-package citec.roboter;
+package citec.Threads;
 import java.util.Random;
 
+import Emotion.Emotions;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.utility.Delay;
@@ -14,6 +15,7 @@ public class Display extends Thread{
 	private int eyesHeight;
 	private int yOffset;
 	private int xOffset;
+	private Emotions emotion = Emotions.Normal;
 	
 	public Display(){
 		lcd = BrickFinder.getDefault().getGraphicsLCD();
@@ -26,7 +28,42 @@ public class Display extends Thread{
 		eyesWidth = 50;
 	}
 	
+	public void setEmotion(Emotions e){
+		emotion = e;
+	}
+	
 	public void run(){
+		while(true){
+			switch(emotion){
+			case Bored:
+				this.bored();
+				break;
+			case Dirty:
+				this.dirty();
+				break;
+			case Dying:
+				this.dying();
+				break;
+			case Excited:
+				this.happy();
+				break;
+			case Hungry:
+				this.hungry();
+				break;
+			case Ill:
+				this.ill();
+				break;
+			case Normal:
+				this.normal();
+				break;
+			case Offended:
+				this.offended();
+				break;
+			case Tired:
+				this.tired();
+				break;
+			}
+		}
 	}
 	
 	public void drawEyes(){

@@ -1,4 +1,5 @@
 package citec.roboter;
+import citec.Threads.Display;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -17,10 +18,6 @@ import lejos.utility.Delay;
  *
  */
 public class Main {
-	private static RegulatedMotor m = new EV3LargeRegulatedMotor(MotorPort.D);
-	private static RegulatedMotor m1 = new EV3LargeRegulatedMotor(MotorPort.A);
-	private static RegulatedMotor m2 = new EV3LargeRegulatedMotor(MotorPort.C);
-	
 
 	/**
 	 * @param args

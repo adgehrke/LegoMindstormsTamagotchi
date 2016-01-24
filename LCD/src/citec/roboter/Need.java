@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import Emotion.Emotion;
+import Emotion.Emotions;
 
 public class Need implements Comparable<Need>{
 	
 	private String name;
 	private int value;
 	private Integer priority;
-	private Emotion underThreshold;
+	private Emotions underThreshold;
 	
 	private List<int[]> boundaries = new ArrayList<>();
 	
-	public void addBoundary(int toAge, int value, Emotion emotion){
+	public void addBoundary(int toAge, int value){
 		boundaries.add(new int[]{toAge,value});
 	}
 	
@@ -42,11 +42,11 @@ public class Need implements Comparable<Need>{
 		
 	}
 	
-	public void setEmotion(Emotion e){
+	public void setEmotion(Emotions e){
 		underThreshold = e;
 	}
 	
-	public Emotion getEmotion(){
+	public Emotions getEmotion(){
 		return underThreshold;
 	}
 	
