@@ -3,13 +3,13 @@ package Emotion;
 import citec.roboter.Sounds;
 import lejos.robotics.RegulatedMotor;
 
-public abstract class Emotion {
+public abstract class Emotion extends Thread {
 	
-	private static RegulatedMotor motorLeft;// = new EV3LargeRegulatedMotor(MotorPort.D);
-	private static RegulatedMotor motorRight;// = new EV3LargeRegulatedMotor(MotorPort.A);
-	private static RegulatedMotor motorHead;// = new EV3LargeRegulatedMotor(MotorPort.C);
-	private static Sounds sound = new Sounds();
-	private boolean terminated = false;
+	protected static RegulatedMotor motorLeft;// = new EV3LargeRegulatedMotor(MotorPort.D);
+	protected static RegulatedMotor motorRight;// = new EV3LargeRegulatedMotor(MotorPort.A);
+	protected static RegulatedMotor motorHead;// = new EV3LargeRegulatedMotor(MotorPort.C);
+	protected static Sounds sound = new Sounds();
+	protected boolean terminated = false;
 	
 	/**
 	 * @param left
@@ -20,12 +20,27 @@ public abstract class Emotion {
 		motorLeft = left;
 		motorRight = right;
 		motorHead = head;
+		terminated = false;
 	}
 	
+	
 	public void terminate(){
+		System.out.println(motorHead.getTachoCount());
+		terminated = true;
+		sound.terminate();
+		motorLeft.stop();
+		motorRight.stop();
+		motorHead.stop();
+		System.out.println(motorHead.getTachoCount());
+		motorHead.rotateTo(0);
+		System.out.println(motorHead.getTachoCount());
 		
 	}
 	
-	public abstract void showEmotion();
+	public void run(){
+		showEmotion();
+	}
+	
+	public abstract boolean showEmotion();
 
 }

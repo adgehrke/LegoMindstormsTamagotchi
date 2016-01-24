@@ -1,10 +1,24 @@
 package citec.roboter;
+
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.port.MotorPort;
+import lejos.robotics.RegulatedMotor;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.Timer;
+
+import Emotion.Bored;
+import Emotion.Emotion;
+import Emotion.Hungry;
+import Emotion.Ill;
+import Emotion.Tired;
 
 /**
  *
@@ -15,94 +29,67 @@ public class Tamagotchi {
 	Tamagotchi tamagotchi;
 	GraphicsLCD gLCD = LocalEV3.get().getGraphicsLCD();
 	Timer t;
+	Emotion shownEmotion;
+	Emotion normalEmotion;
+	Emotion dyingEmotion;
 
 	private int age;
 
 	// Needs[Value][Prio]
-	int[] health = new int[2];
-	int[] sleep = new int[2];
-	int[] fun = new int[2];
-	int[] food = new int[2];
+	Need health = new Need();
+	Need sleep = new Need();
+	Need fun = new Need();
+	Need food = new Need();
 
+	List<Need> needs = new ArrayList<>();
+
+	Integer emotionThreshold = 50;
+
+	private static RegulatedMotor m = new EV3LargeRegulatedMotor(MotorPort.D);
+	private static RegulatedMotor m1 = new EV3LargeRegulatedMotor(MotorPort.A);
+	private static RegulatedMotor m2 = new EV3LargeRegulatedMotor(MotorPort.C);
+	
 	/**
 	 * 
 	 */
-	private void newDay() {
-
-		age++;
-
-		calcNewHealth();
-		sleep[0]--;
-		fun[0]--;
-		food[0]--;
-
-		int wellbeing = (health[0] + sleep[0] + fun[0] + food[0]) / 5;
-
-		
-		
-		LCD.setPixel(age, 0, 1);
-		// LCD.setPixel(age, 1, 1);
-		// LCD.setPixel(age, 2, 1);
-
-		LCD.drawString("Health" + health[0] + " PRIO: " + health[1], 0, 1);
-		LCD.drawString("Sleep" + sleep[0], 0, 2);
-		LCD.drawString("Fun" + fun[0], 0, 3);
-		LCD.drawString("Food" + food[0], 0, 4);
-		LCD.drawString("Wellbeing" + wellbeing, 0, 5);
-		if (wellbeing <= 10) {
-			die();
-		} else if (wellbeing <= 50) {
-			warn(wellbeing);
-		}
-
-	}
-
-	/**
-	 * 
-	 */
-	private void die() {
-		LCD.drawString("ich bin tot :(", 0, 7);
-	}
-
-	/**
-	 * @param wellbeing
-	 */
-	private void warn(int wellbeing) {
-		LCD.drawString("mir geht es schlecht :( " + wellbeing, 0, 7);
-	}
-
-	/**
-	 * 
-	 */
-	private void calcNewHealth() {
-		// health Function
-		// 0-25 PRIO => 100-age
-		// 25-50 PRIO => age/2
-		// 50_75 PRIO => age
-		// 75-XX PRIO => age*2
-		if (age <= 25) {
-			health[1] = (50 - age) * 10;
-		} else if (age <= 50) {
-			health[1] = age * 10;
-		} else if (age <= 75) {
-			health[1] = age * 15;
-		} else {
-			health[1] = age * 20;
-		}
-
-		int difference = health[1] / 100;
-		if (difference < 1) {
-			difference = 1;
-		}
-		health[0] -= difference;
-	}
-
-	/**
-	 * 
-	 */
+	
 	public Tamagotchi() {
-		health[0] = sleep[0] = fun[0] = food[0] = 100;
-		health[1] = sleep[1] = fun[1] = food[1] = 50;
+		health.setName("health");
+		health.setEmotion(new Ill(m,m1,m2));
+		health.addBoundary(10, 10, null);
+		health.addBoundary(20, 5, null);
+		health.addBoundary(60, 2, null);
+		health.addBoundary(80, 10, null);
+		
+		sleep.setName("sleep");
+		sleep.setEmotion(new Tired(m,m1,m2));
+		health.addBoundary(10, 10, null);
+		health.addBoundary(20, 5, null);
+		health.addBoundary(60, 2, null);
+		health.addBoundary(80, 10, null);
+		
+		fun.setName("fun");
+		fun.setEmotion(new Bored(m,m1,m2));
+		health.addBoundary(10, 10, null);
+		health.addBoundary(20, 8, null);
+		health.addBoundary(60, 5, null);
+		health.addBoundary(80, 2, null);
+		
+		food.setName("food");
+		food.setEmotion(new Hungry(m,m1,m2));
+		health.addBoundary(10, 8, null);
+		health.addBoundary(20, 10, null);
+		health.addBoundary(60, 6, null);
+		health.addBoundary(80, 3, null);
+		
+		needs.add(health);
+		needs.add(sleep);
+		needs.add(fun);
+		needs.add(food);
+		for(Need n: needs){
+			n.setPriority(50);
+			n.setValue(100);
+		}
 
 		age = 0;
 
@@ -115,5 +102,60 @@ public class Tamagotchi {
 		t.setRepeats(true);
 		t.start();
 	}
+
+	private void calculateEmotion() {
+		needs.sort(new NeedComperator());
+		for (Need need : needs) {
+			if (need.getValue() < emotionThreshold) {
+				if (shownEmotion != need.getEmotion()) {
+					shownEmotion.terminate();
+					shownEmotion = need.getEmotion();
+					shownEmotion.start();
+					return;
+				}
+			}
+		}
+		if (shownEmotion != normalEmotion) {
+			shownEmotion.terminate();
+			shownEmotion = normalEmotion;
+			shownEmotion.start();
+			return;
+		}
+		
+		
+	}
+
+	private void newDay() {
+
+		age++;
+		int wellbeing = 0;
+		for(Need n: needs){
+			n.calculatePriority(age);
+			n.calculateValue(age);
+			wellbeing+=n.getValue();
+		}
+
+		wellbeing = wellbeing / 5;
+		if(wellbeing<10){
+			if (shownEmotion != dyingEmotion) {
+				shownEmotion.terminate();
+				shownEmotion = dyingEmotion;
+				shownEmotion.start();
+				return;
+			}
+		}
+
+		LCD.setPixel(age, 0, 1);
+		// LCD.setPixel(age, 1, 1);
+		// LCD.setPixel(age, 2, 1);
+		for(Need n: needs){
+			LCD.drawString(n.getName() + n.getValue() + " PRIO: " + n.getPriority(), 0, 1);
+		}
+		LCD.drawString("Wellbeing" + wellbeing, 0, 5);
+		
+		calculateEmotion();
+
+	}
+
 
 }
