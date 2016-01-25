@@ -24,7 +24,7 @@ import Emotion.Emotions;
 /**
  *
  */
-public class Tamagotchi {
+public class Tamagotchi extends Thread{
 
 	int speed = 1000;
 	int wellbeing = 100;
@@ -52,11 +52,15 @@ public class Tamagotchi {
 	//Motor motor = new Motor();
 	Sounds sound = new Sounds();
 	
+	private boolean alive = true;
+	
 	/**
 	 * 
 	 */
 	
-	public Tamagotchi() {
+	public Tamagotchi(int lengthOfDay, int emotionThreshold) {
+		this.speed = lengthOfDay;
+		this.emotionThreshold = emotionThreshold;
 		health.setName("health");
 		health.setEmotion(Emotions.Ill);
 		health.addBoundary(10, 10);
@@ -109,7 +113,7 @@ public class Tamagotchi {
 		//motor.start();
 		display.start();
 		sound.start();
-		while(true){
+		while(alive==true){
 			newDay();
 			Delay.msDelay(speed);
 		}
@@ -118,8 +122,11 @@ public class Tamagotchi {
 	private void calculateEmotion() {
 		int tmpMaxPrio = 0;
 		Emotions tmpNewEmotion = shownEmotion;
-		
-		if(wellbeing<10){
+		if (wellbeing < 15){
+			this.alive = false;
+			return;
+		}
+		else if(wellbeing<20){
 			if (shownEmotion != dyingEmotion) {
 				shownEmotion = dyingEmotion;
 				display.setEmotion(shownEmotion);
@@ -158,7 +165,7 @@ public class Tamagotchi {
 			sound.setEmotion(shownEmotion);
 		}
 		
-		display.drawVal(health.getValue());
+		//display.drawVal(health.getValue());
 
 		
 	}
@@ -185,7 +192,7 @@ public class Tamagotchi {
 			y++;
 			//LCD.drawString(n.getName() + n.getValue() + " PRIO: " + n.getPriority(), 0, y);
 		}
-		//LCD.drawString("Wellbeing" + wellbeing, 0, 5);
+		LCD.drawString("Wellbeing" + wellbeing, 0, 5);
 		
 		calculateEmotion();
 

@@ -23,7 +23,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		new Tamagotchi();
+		new Menu();
+		//new Tamagotchi();
 		//testUltrasonicSensor();
 		//testEmotion();
 		//finishAfterButtonPress();
