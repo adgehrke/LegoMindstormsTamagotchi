@@ -15,26 +15,31 @@ public class Need implements Comparable<Need>{
 	
 	private List<int[]> boundaries = new ArrayList<>();
 	
+	/**
+	 * @param toAge
+	 * @param value
+	 */
 	public void addBoundary(int toAge, int value){
 		boundaries.add(new int[]{toAge,value});
 	}
 	
+	/**
+	 * @param age
+	 * 
+	 */
 	public void calculatePriority(int age){
-		if (age <= 25) {
-			priority = (50 - age) * 10;
-		} else if (age <= 50) {
-			priority = age * 10;
-		} else if (age <= 75) {
-			priority = age * 15;
-		} else {
-			priority = age * 20;
+		priority = boundaries.get(0)[1];
+		for (int[] boundary : boundaries) {
+			if (age > boundary[0]){
+				priority = boundary[1];
+			}
 		}
 	}
 	
 	public void calculateValue(int age){
 
 
-		int difference = priority / 100;
+		int difference = ((priority*100)*(priority*100)) / 100000;
 		if (difference < 1) {
 			difference = 1;
 		}

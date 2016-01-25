@@ -16,7 +16,7 @@ public class Display extends Thread{
 	private int yOffset;
 	private int xOffset;
 	private Emotions emotion = Emotions.Normal;
-	
+	private boolean changed = true;
 	public Display(){
 		lcd = BrickFinder.getDefault().getGraphicsLCD();
 		this.height = lcd.getHeight();
@@ -30,41 +30,58 @@ public class Display extends Thread{
 	
 	public void setEmotion(Emotions e){
 		emotion = e;
+		changed = true;
+	}
+	
+	public void drawVal(int val){
+		lcd.setColor(255, 255, 255);
+		lcd.drawLine(0, 0, 0, 1000);
+		lcd.drawLine(1, 0, 1, 1000);
+		
+		lcd.setColor(0,0,0);
+		lcd.drawLine(0, 0, 0, val);
+		lcd.drawLine(1, 0, 1, val);
+		
 	}
 	
 	public void run(){
 		while(true){
-			switch(emotion){
-			case Bored:
-				this.bored();
-				break;
-			case Dirty:
-				this.dirty();
-				break;
-			case Dying:
-				this.dying();
-				break;
-			case Excited:
-				this.happy();
-				break;
-			case Hungry:
-				this.hungry();
-				break;
-			case Ill:
-				this.ill();
-				break;
-			case Normal:
-				this.normal();
-				break;
-			case Offended:
-				this.offended();
-				break;
-			case Tired:
-				this.tired();
-				break;
+			if (changed == true){
+				changed = false;
+				switch(emotion){
+				case Bored:
+					this.bored();
+					break;
+				case Dirty:
+					this.dirty();
+					break;
+				case Dying:
+					this.dying();
+					break;
+				case Excited:
+					this.happy();
+					break;
+				case Hungry:
+					this.hungry();
+					break;
+				case Ill:
+					this.ill();
+					break;
+				case Normal:
+					this.normal();
+					break;
+				case Offended:
+					this.offended();
+					break;
+				case Tired:
+					this.tired();
+					break;
+				}
 			}
 		}
 	}
+	
+	
 	
 	public void drawEyes(){
 		yOffset = (this.height-eyesHeight)/2+10;
