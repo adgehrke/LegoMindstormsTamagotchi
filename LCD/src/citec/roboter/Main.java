@@ -24,7 +24,7 @@ public class Main {
 	 */
 	public static void main(String[] args){
 		new Menu();
-		//new Tamagotchi();
+		//new Tamagotchi(1000, 50);
 		//testUltrasonicSensor();
 		//testEmotion();
 		//finishAfterButtonPress();

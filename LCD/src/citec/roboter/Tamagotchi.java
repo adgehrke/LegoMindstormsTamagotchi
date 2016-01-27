@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+import citec.Threads.Action;
 import citec.Threads.Display;
 import citec.Threads.Sounds;
 import Emotion.Emotions;
@@ -24,7 +25,7 @@ import Emotion.Emotions;
 /**
  *
  */
-public class Tamagotchi extends Thread{
+public class Tamagotchi{
 
 	int speed = 1000;
 	int wellbeing = 100;
@@ -33,10 +34,12 @@ public class Tamagotchi extends Thread{
 	Emotions shownEmotion = Emotions.Normal;
 	Emotions normalEmotion = Emotions.Normal;
 	Emotions dyingEmotion = Emotions.Dying;
-
+	Actions shownAction = Actions.None;
+	Action actionController = new Action();
+	
 	private int age;
 
-	// Needs[Value][Prio]
+	// Needs
 	Need health = new Need();
 	Need sleep = new Need();
 	Need fun = new Need();
@@ -52,13 +55,20 @@ public class Tamagotchi extends Thread{
 	//Motor motor = new Motor();
 	Sounds sound = new Sounds();
 	
+	
+	UltrasonicSensor usSensor = new UltrasonicSensor("S1");
+	ColorSensor coSensor = new ColorSensor("S1");
+	
+	
 	private boolean alive = true;
 	
 	/**
 	 * 
 	 */
 	
-	public Tamagotchi(int lengthOfDay, int emotionThreshold) {
+	public Tamagotchi(int lengthOfDay, int emotionThreshold){
+		
+		
 		this.speed = lengthOfDay;
 		this.emotionThreshold = emotionThreshold;
 		health.setName("health");
@@ -113,11 +123,18 @@ public class Tamagotchi extends Thread{
 		//motor.start();
 		display.start();
 		sound.start();
+		
+		usSensor.start();
+		actionController.start();
+		coSensor.start();
+		
+		
 		while(alive==true){
 			newDay();
-			Delay.msDelay(speed);
+			Delay.msDelay(1000);
 		}
 	}
+	
 
 	private void calculateEmotion() {
 		int tmpMaxPrio = 0;
@@ -169,32 +186,70 @@ public class Tamagotchi extends Thread{
 
 		
 	}
+	
 
+	private void calculateAction(){
+		shownAction = Actions.None;
+		
+		// Healing Button pressed
+		if (usSensor.getData() >= 3 && usSensor.getData() <= 12){
+			if (shownAction == Actions.Healing){
+				shownAction = Actions.None;
+			}
+			else if(shownAction == Actions.None){
+				shownAction = Actions.Healing;
+				health.setValue(health.getValue()+50);
+			}
+		}
+		
+		// Color Button pressed
+		if (coSensor.getData() >= 5){
+			if (shownAction == Actions.Eating){
+				shownAction = Actions.None;
+			}
+			else if(shownAction == Actions.None){
+				shownAction = Actions.Eating;
+				food.setValue(food.getValue()+50);
+			}
+		}
+		
+	}
+
+	private int counter = 0;
 	private void newDay() {
-
-		age++;
-		wellbeing = 0;
-		for(Need n: needs){
-			n.calculatePriority(age);
-			n.calculateValue(age);
-			wellbeing+=n.getValue();
+		calculateAction();
+		
+		if (counter % speed == 0){
+			age++;
+			wellbeing = 0;
+			for(Need n: needs){
+				n.calculatePriority(age);
+				n.calculateValue(age);
+				wellbeing+=n.getValue();
+			}
+			
+			// calculate average
+			wellbeing=wellbeing/needs.size();
+			
+	
+			//LCD.setPixel(age, 0, 1);
+			// LCD.setPixel(age, 1, 1);
+			// LCD.setPixel(age, 2, 1);
+			int y = 1;
+			for(Need n: needs){
+				y++;
+				//LCD.drawString(n.getName() + n.getValue() + " PRIO: " + n.getPriority(), 0, y);
+			}
+			LCD.drawString("Wellbeing" + wellbeing, 0, 5);
+			
+			if (shownAction == Actions.None){
+				calculateEmotion();
+			}
 		}
 		
-		// calculate average
-		wellbeing=wellbeing/needs.size();
 		
-
-		//LCD.setPixel(age, 0, 1);
-		// LCD.setPixel(age, 1, 1);
-		// LCD.setPixel(age, 2, 1);
-		int y = 1;
-		for(Need n: needs){
-			y++;
-			//LCD.drawString(n.getName() + n.getValue() + " PRIO: " + n.getPriority(), 0, y);
-		}
-		LCD.drawString("Wellbeing" + wellbeing, 0, 5);
+	
 		
-		calculateEmotion();
 
 	}
 

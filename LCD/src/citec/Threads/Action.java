@@ -1,6 +1,6 @@
-package citec.roboter;
+package citec.Threads;
 
-public class Action {
+public class Action extends Thread{
 
 	
 	/*
@@ -28,7 +28,7 @@ public class Action {
 	}
 	
 	/*
-	 * Bewegung: Fährt gradeaus, bis schwarze-Randlinie, dreht sich min 90° max 270°
+	 * Bewegung: Fï¿½hrt gradeaus, bis schwarze-Randlinie, dreht sich min 90ï¿½ max 270ï¿½
 	 * Kopf: stabil eher unten
 	 * Sound: singsang-summen
 	 * Display: Augen Auf. (Pupillenbewegung)
@@ -43,8 +43,8 @@ public class Action {
 	
 	/*
 	 * 
-	 * Sound: glücklich summen (aufsteigend)
-	 * Display: Augen öffnen sich langsam
+	 * Sound: glï¿½cklich summen (aufsteigend)
+	 * Display: Augen ï¿½ffnen sich langsam
 	 * 
 	 * Endet, sofort nach Spritze
 	 * 
@@ -56,11 +56,11 @@ public class Action {
 	/*
 	 * 
 	 * Sound: nach 2-Mal streicheln: Schreien, danach zufrieden summen
-	 * Bewegen: bei 2-Mal streicheln: kurzes rückfahren, danach stillstand
+	 * Bewegen: bei 2-Mal streicheln: kurzes rï¿½ckfahren, danach stillstand
 	 * Kopf: bei 2-Mal unzufrieden kopf runter: danach: Kopf hoch
 	 * Display: Augen stabil.
 	 * 
-	 * Endet, wenn Button nach 3 Sekunden noch nicht wieder gedrückt wurde
+	 * Endet, wenn Button nach 3 Sekunden noch nicht wieder gedrï¿½ckt wurde
 	 * 
 	 */
 	public void washing(){

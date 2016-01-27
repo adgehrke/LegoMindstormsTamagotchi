@@ -37,8 +37,6 @@ public class Need implements Comparable<Need>{
 	}
 	
 	public void calculateValue(int age){
-
-
 		int difference = ((priority*100)*(priority*100)) / 100000;
 		if (difference < 1) {
 			difference = 1;

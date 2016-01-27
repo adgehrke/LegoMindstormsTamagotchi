@@ -10,7 +10,7 @@ public class Menu {
 	int menuPointDistance = 25;
 	
 	public Menu(){
-		boolean gameStarted = false;
+		boolean exit = false;
 		lcd = BrickFinder.getDefault().getGraphicsLCD();
 		Tamagotchi t = null;
 		
@@ -19,7 +19,7 @@ public class Menu {
 		
 		int activeMenuPoint = 20;
 		
-		while(!gameStarted){
+		while(!exit){
 			lcd.clear();
 			drawMenuText();
 			drawActiveMenuBars(activeMenuPoint);
@@ -48,12 +48,12 @@ public class Menu {
 			}
 			if (Button.readButtons() == Button.ID_ENTER){
 				if (activeMenuPoint == 20){
-					activeMenuPoint = 20+menuPointDistance*2;
+					activeMenuPoint = 20;
 					t = new Tamagotchi(lengthOfDay*1000, emotionThreshold*10);
-					break;
+					lcd.clear();
 				}
 				if (activeMenuPoint == 20+menuPointDistance*3){
-					break;
+					exit=true;
 				}
 				
 			}

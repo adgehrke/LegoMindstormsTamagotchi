@@ -3,6 +3,7 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
+import lejos.utility.Delay;
 
 public class UltrasonicSensor extends Thread{
 	private String port;
@@ -11,12 +12,16 @@ public class UltrasonicSensor extends Thread{
 	private SampleProvider distance;
 	private boolean active;
 	
+	private int test;
+	
 	public UltrasonicSensor(String port){
 		this.port = port;
-		this.sensor = new EV3UltrasonicSensor(LocalEV3.get().getPort("S2")); 
+		/*this.sensor = new EV3UltrasonicSensor(LocalEV3.get().getPort("S2")); 
 		this.distance = sensor.getMode("Distance"); 
 		this.data =  new float[distance.sampleSize()];
-		this.active = false;
+		this.active = false;*/
+		
+		test = 0;
 	}
 
 
@@ -29,7 +34,8 @@ public class UltrasonicSensor extends Thread{
 	}
 	
 	private void fetchData(){
-		distance.fetchSample(this.data,0);
+		//distance.fetchSample(this.data,0);
+		
 	}
 
 	public SensorModes getSensor() {
@@ -59,10 +65,11 @@ public class UltrasonicSensor extends Thread{
 
 
 	public float getData() {
-		if (data.length >= 1){
+		return test;
+		/*if (data.length >= 1){
 			return this.data[0];
 		}
-		return 999999.9f;		
+		return 999999.9f;	*/	
 	}
 
 
@@ -85,8 +92,11 @@ public class UltrasonicSensor extends Thread{
 	}
 	@Override
 	public void run(){
-		
-		sampleData();
+		while (true){
+			test++;
+			Delay.msDelay(1000);
+			//distance.fetchSample(this.data,0);
+		}
 	}
 
 	
