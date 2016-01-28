@@ -4,22 +4,23 @@ import java.util.Random;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
-public class ColorSensor extends Thread{
+public class GyroSensor extends Thread{
 	private String port;
 	private SensorModes sensor;
 	private float[] data;
-	private SampleProvider color;
+	private SampleProvider gyro;
 	private boolean active;
 	
-	public ColorSensor(String port){
+	public GyroSensor(String port){
 		this.port = "S4";
-		this.sensor = new EV3ColorSensor(LocalEV3.get().getPort(port)); 
-		this.color = sensor.getMode("ColorID"); 
-		this.data =  new float[color.sampleSize()];
+		this.sensor = new EV3GyroSensor(LocalEV3.get().getPort(port)); 
+		this.gyro = sensor.getMode(1); 
+		this.data =  new float[sensor.sampleSize()];
 		this.active = false;
 	}
 
@@ -32,9 +33,6 @@ public class ColorSensor extends Thread{
 		this.port = port;
 	}
 	
-	private void fetchData(){
-		color.fetchSample(this.data,0);
-	}
 
 	public SensorModes getSensor() {
 		return sensor;
@@ -45,11 +43,6 @@ public class ColorSensor extends Thread{
 		this.sensor = sensor;
 	}
 
-	private void sampleData(){
-		while(isActive()){
-			fetchData();
-		}
-	}
 	
 	
 	public boolean isActive() {
@@ -70,32 +63,19 @@ public class ColorSensor extends Thread{
 	}
 
 
-	public void setData(float[] data) {
-		this.data = data;
-	}
-	
 	public void terminate(){
 		this.active = false;
 	}
 
 
-	public SampleProvider getColor() {
-		return color;
-	}
-
-
-	public void setColor(SampleProvider color) {
-		this.color = color;
-	}
-
 
 	@Override
 	public void run(){
 		while (true){
-			color.fetchSample(this.data,0);
-			/*draw color
-			 * LCD.clear();
-			 * LCD.drawString("Farbe"+this.data[0], 0, 0);
+			gyro.fetchSample(this.data,0);
+			/*
+			 LCD.clear();
+			 LCD.drawString("gyro"+this.data[0], 0, 0);
 			 */
 			Delay.msDelay(300);
 		}

@@ -5,6 +5,7 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.SensorPort;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
@@ -35,7 +36,6 @@ public class Tamagotchi{
 	Emotions normalEmotion = Emotions.Normal;
 	Emotions dyingEmotion = Emotions.Dying;
 	Actions shownAction = Actions.None;
-	Action actionController = new Action();
 	
 	private int age;
 
@@ -55,9 +55,12 @@ public class Tamagotchi{
 	//Motor motor = new Motor();
 	Sounds sound = new Sounds();
 	
+
+	//TouchSensor touchSensorCleaning = new TouchSensor("S1");
+	ColorSensor coSensor = new ColorSensor("S3");
+	GyroSensor gyroSensor = new GyroSensor("S2");
+	TouchSensor touchSensorHealing = new TouchSensor("S4");
 	
-	UltrasonicSensor usSensor = new UltrasonicSensor("S1");
-	ColorSensor coSensor = new ColorSensor("S1");
 	
 	
 	private boolean alive = true;
@@ -124,8 +127,8 @@ public class Tamagotchi{
 		display.start();
 		sound.start();
 		
-		usSensor.start();
-		actionController.start();
+		touchSensorHealing.start();
+		gyroSensor.start();
 		coSensor.start();
 		
 		
@@ -139,7 +142,7 @@ public class Tamagotchi{
 	private void calculateEmotion() {
 		int tmpMaxPrio = 0;
 		Emotions tmpNewEmotion = shownEmotion;
-		if (wellbeing < 15){
+		/*if (wellbeing < 15){
 			this.alive = false;
 			return;
 		}
@@ -147,11 +150,11 @@ public class Tamagotchi{
 			if (shownEmotion != dyingEmotion) {
 				shownEmotion = dyingEmotion;
 				display.setEmotion(shownEmotion);
-				sound.setEmotion(shownEmotion);
+				//sound.setEmotion(shownEmotion);
 				//motor.setEmotion(shownEmotion);	
 			}
 			return;
-		}
+		}*/
 		
 		for (Need need : needs) {
 			if (need.getValue() < emotionThreshold && need.getPriority() > tmpMaxPrio) {
@@ -192,25 +195,43 @@ public class Tamagotchi{
 		shownAction = Actions.None;
 		
 		// Healing Button pressed
-		if (usSensor.getData() >= 3 && usSensor.getData() <= 12){
+		if (touchSensorHealing.isPressed()){
 			if (shownAction == Actions.Healing){
 				shownAction = Actions.None;
 			}
 			else if(shownAction == Actions.None){
 				shownAction = Actions.Healing;
-				health.setValue(health.getValue()+50);
+				health.setValue(health.getValue()+100);
 			}
 		}
 		
-		// Color Button pressed
-		if (coSensor.getData() >= 5){
+		// Food = Green
+		if (coSensor.getData() == 1){
+			//if(shownAction == Actions.None){
+				shownAction = Actions.Eating;
+				food.setValue(food.getValue()+50);
+			//}
+		}
+		else{
 			if (shownAction == Actions.Eating){
 				shownAction = Actions.None;
 			}
-			else if(shownAction == Actions.None){
-				shownAction = Actions.Eating;
-				food.setValue(food.getValue()+50);
+		}
+		
+		// Sleeping
+		if (gyroSensor.getData() >= 80 || gyroSensor.getData() <= -80){
+			if(shownAction == Actions.None){
+				shownAction = Actions.Sleeping;
+				sound.setAction(Actions.Sleeping);
+				sleep.setValue(sleep.getValue()+100);
 			}
+			else if(shownAction == Actions.Sleeping){
+				sleep.setValue(sleep.getValue()+100);
+			}
+		}
+		else{
+				shownAction = Actions.None;
+				sound.setAction(Actions.None);
 		}
 		
 	}
