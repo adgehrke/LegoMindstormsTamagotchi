@@ -41,7 +41,7 @@ public class Need implements Comparable<Need>{
 		if (difference < 1) {
 			difference = 1;
 		}
-		value -= difference;
+		value -= priority;
 		
 	}
 	

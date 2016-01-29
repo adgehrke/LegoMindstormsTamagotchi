@@ -54,6 +54,7 @@ public class Menu {
 				}
 				if (activeMenuPoint == 20+menuPointDistance*3){
 					exit=true;
+					System.exit(0);
 				}
 				
 			}

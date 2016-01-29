@@ -17,9 +17,9 @@ public class Sounds extends Thread{
 	private Actions action = Actions.None;
 	private int wait = 3000;
 	private boolean changed;
-	
+	private int time=0;
 	public Sounds(){
-		Sound.setVolume(80);
+		Sound.setVolume(90);
 	}
 	
 
@@ -40,8 +40,10 @@ public class Sounds extends Thread{
 	
 	public void run(){
 		while(true){
-			if (changed == true){
+			time++;
+			if (changed == true || time > 20){
 				changed = false;
+				time = 0;
 				switch(action){
 					case None:
 						break;
@@ -49,10 +51,13 @@ public class Sounds extends Thread{
 						this.sleeping();
 						break;
 					case Eating:
+						this.eating();
 						break;
 					case Healing:
+						this.healing();
 						break;
 					case Playing:
+						this.playing();
 						break;
 					default:
 						break;
@@ -89,50 +94,52 @@ public class Sounds extends Thread{
 					}
 				}
 			}
+			Delay.msDelay(100);
 		}
 	}
 
+	private void playing() {
+	}
+
+	private void healing() {
+		Sound.playSample(new File("healing.wav"));
+	}
+
+	private void eating() {
+		Sound.playSample(new File("eating.wav"));
+	}
+
 	private void tired() {
-		// TODO Auto-generated method stub
-		
+		Sound.playSample(new File("tired.wav"));
 	}
 
 	private void offended() {
-		// TODO Auto-generated method stub
-		
+		Sound.playSample(new File("offended.wav"));
 	}
 
 	private void normal() {
-		// TODO Auto-generated method stub
-		
-		wait = Sound.playSample(new File("dog_bark.wav"))+1000;
-		
-		
+		Sound.playSample(new File("dog_bark.wav"));
 	}
 	
 	private void sleeping() {
-		wait = Sound.playSample(new File("growl.wav"))+1000;
-
+		Sound.playSample(new File("growl.wav"));
 	}
 
 	private void ill() {
-	wait = Sound.playSample(new File("dog_bark.wav"))+1000;
+		Sound.playSample(new File("ill.wav"));
 
 	}
 
 	private void hungry() {
-		// TODO Auto-generated method stub
-		wait = Sound.playSample(new File("dog_bark.wav"))+1000;
+		Sound.playSample(new File("hungry.wav"));
 	}
 
 	private void happy() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	private void dying() {
-		// TODO Auto-generated method stub
-		
+		Sound.playSample(new File("dying.wav"));
 	}
 
 	private void dirty() {

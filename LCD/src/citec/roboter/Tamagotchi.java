@@ -60,6 +60,7 @@ public class Tamagotchi{
 	ColorSensor coSensor = new ColorSensor("S3");
 	GyroSensor gyroSensor = new GyroSensor("S2");
 	TouchSensor touchSensorHealing = new TouchSensor("S4");
+	TouchSensor touchSensorCleaning = new TouchSensor("S1");
 	
 	
 	
@@ -83,7 +84,7 @@ public class Tamagotchi{
 		
 		sleep.setName("sleep");
 		sleep.setEmotion(Emotions.Tired);
-		sleep.addBoundary(10, 8);
+		sleep.addBoundary(10, 9);
 		sleep.addBoundary(20, 5);
 		sleep.addBoundary(60, 2);
 		sleep.addBoundary(80, 9);
@@ -128,6 +129,8 @@ public class Tamagotchi{
 		sound.start();
 		
 		touchSensorHealing.start();
+		touchSensorCleaning.start();
+		
 		gyroSensor.start();
 		coSensor.start();
 		
@@ -205,16 +208,35 @@ public class Tamagotchi{
 			}
 		}
 		
+		// Cleaning Button pressed
+		if (touchSensorCleaning.isPressed()){
+			if (shownAction == Actions.Cleaning){
+				shownAction = Actions.None;
+			}
+			else if(shownAction == Actions.None){
+				shownAction = Actions.Cleaning;
+				cleanliness.setValue(cleanliness.getValue()+100);
+			}
+		}
+		
 		// Food = Green
 		if (coSensor.getData() == 1){
-			//if(shownAction == Actions.None){
+
+			food.setValue(food.getValue()+50);
+			fun.setValue(fun.getValue()+50);
+			
+			if(shownAction != Actions.Eating){
 				shownAction = Actions.Eating;
-				food.setValue(food.getValue()+50);
-			//}
+				sound.setAction(Actions.Eating);
+				display.setAction(Actions.Eating);
+			}
+			return;
 		}
 		else{
 			if (shownAction == Actions.Eating){
 				shownAction = Actions.None;
+				sound.setAction(Actions.None);
+				display.setAction(Actions.None);
 			}
 		}
 		
@@ -223,6 +245,8 @@ public class Tamagotchi{
 			if(shownAction == Actions.None){
 				shownAction = Actions.Sleeping;
 				sound.setAction(Actions.Sleeping);
+				display.setAction(Actions.Sleeping);
+				
 				sleep.setValue(sleep.getValue()+100);
 			}
 			else if(shownAction == Actions.Sleeping){
@@ -232,6 +256,8 @@ public class Tamagotchi{
 		else{
 				shownAction = Actions.None;
 				sound.setAction(Actions.None);
+				display.setAction(Actions.None);
+				
 		}
 		
 	}
@@ -239,7 +265,7 @@ public class Tamagotchi{
 	private int counter = 0;
 	private void newDay() {
 		calculateAction();
-		
+		counter+=1000;
 		if (counter % speed == 0){
 			age++;
 			wellbeing = 0;
@@ -259,9 +285,9 @@ public class Tamagotchi{
 			int y = 1;
 			for(Need n: needs){
 				y++;
-				//LCD.drawString(n.getName() + n.getValue() + " PRIO: " + n.getPriority(), 0, y);
+				LCD.drawString(n.getName().substring(0, 3) + n.getValue() + ", " + n.getPriority(), 0, y);
 			}
-			LCD.drawString("Wellbeing" + wellbeing, 0, 5);
+			LCD.drawString("Wellbeing" + wellbeing, 0, 7);
 			
 			if (shownAction == Actions.None){
 				calculateEmotion();

@@ -17,10 +17,9 @@ public class GyroSensor extends Thread{
 	private boolean active;
 	
 	public GyroSensor(String port){
-		this.port = "S4";
 		this.sensor = new EV3GyroSensor(LocalEV3.get().getPort(port)); 
 		this.gyro = sensor.getMode(1); 
-		this.data =  new float[sensor.sampleSize()];
+		this.data =  new float[gyro.sampleSize()];
 		this.active = false;
 	}
 

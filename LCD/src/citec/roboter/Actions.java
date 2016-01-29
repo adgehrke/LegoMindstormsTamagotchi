@@ -5,5 +5,6 @@ public enum Actions {
 	Eating,
 	Sleeping,
 	Playing,
-	Healing
+	Healing,
+	Cleaning
 }

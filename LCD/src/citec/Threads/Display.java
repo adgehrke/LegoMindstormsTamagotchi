@@ -2,6 +2,7 @@ package citec.Threads;
 import java.util.Random;
 
 import Emotion.Emotions;
+import citec.roboter.Actions;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.utility.Delay;
@@ -15,7 +16,9 @@ public class Display extends Thread{
 	private int eyesHeight;
 	private int yOffset;
 	private int xOffset;
+	private boolean terminated = false;
 	private Emotions emotion = Emotions.Normal;
+	private Actions action = Actions.None;
 	private boolean changed = true;
 	public Display(){
 		lcd = BrickFinder.getDefault().getGraphicsLCD();
@@ -28,10 +31,6 @@ public class Display extends Thread{
 		eyesWidth = 50;
 	}
 	
-	public void setEmotion(Emotions e){
-		emotion = e;
-		changed = true;
-	}
 	
 	public void drawVal(int val){
 		lcd.setColor(255, 255, 255);
@@ -43,43 +42,76 @@ public class Display extends Thread{
 		lcd.drawLine(1, 0, 1, val);
 		
 	}
-	
-	public void run(){
-		while(true){
-			if (changed == true){
-				changed = false;
-				switch(emotion){
-				case Bored:
-					this.bored();
-					break;
-				case Dirty:
-					this.dirty();
-					break;
-				case Dying:
-					this.dying();
-					break;
-				case Excited:
-					this.happy();
-					break;
-				case Hungry:
-					this.hungry();
-					break;
-				case Ill:
-					this.ill();
-					break;
-				case Normal:
-					this.normal();
-					break;
-				case Offended:
-					this.offended();
-					break;
-				case Tired:
-					this.tired();
-					break;
-				}
-			}
+public void setEmotion(Emotions e){
+		
+		if (action == Actions.None && e != emotion){
+			emotion = e;
+			changed = true;
 		}
 	}
+	
+	public void setAction(Actions a){
+		if (a != action){
+			action = a;
+			changed = true;
+		}
+	}
+	
+	public void run(){
+		while(!terminated){
+			if (changed == true){
+				changed = false;
+				switch(action){
+					case None:
+						break;
+					case Sleeping:
+						this.sleeping();
+						break;
+					case Eating:
+						break;
+					case Healing:
+						break;
+					case Playing:
+						break;
+					default:
+						break;
+				}
+				if (action == Actions.None){
+					switch(emotion){
+						case Bored:
+							this.bored();
+							break;
+						case Dirty:
+							this.dirty();
+							break;
+						case Dying:
+							this.dying();
+							break;
+						case Excited:
+							this.happy();
+							break;
+						case Hungry:
+							this.hungry();
+							break;
+						case Ill:
+							this.ill();
+							break;
+						case Normal:
+							this.normal();
+							break;
+						case Offended:
+							this.offended();
+							break;
+						case Tired:
+							this.tired();
+							break;
+					}
+				}
+			}
+	
+		}
+	}
+
 	
 	
 	
@@ -183,7 +215,8 @@ public class Display extends Thread{
 	}
 	
 	public void eating(){
-		
+		this.clear();
+		lcd.drawString("Eating", 0, 0, 0);
 	}
 	
 	public void sleeping(){	
@@ -267,7 +300,7 @@ public void healing(){
 		for(int i = (int) Math.round(eyesHeight/1.5);i>0;i--){
 			this.clear();
 			this.drawEyes();
-			lcd.drawString("Ill", 0, 0, 0);
+			lcd.drawString("Healing", 0, 0, 0);
 			
 			lcd.fillRect(xOffset,yOffset, eyesWidth, i);
 			lcd.fillRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, i);
