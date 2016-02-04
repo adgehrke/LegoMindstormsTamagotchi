@@ -27,15 +27,16 @@ public class Motor extends Thread {
 	//Max = -2160 = 6x(-360)
 	//Min = 1800 = 5*(360)
 	public Motor() {
-		TouchSensor touch = new TouchSensor("S4");
-		touch.start();
-		while (true) {
-			while (!touch.isPressed()) {
-				head.rotate(360);
-			}
-			toInitialPosition();
-
-		}
+		
+	}
+	
+	public void headUp(int degree){
+		head.rotate(-degree);
+		
+	}
+	
+	public void headDown(int degree){
+		head.rotate(degree);
 	}
 
 	public void setEmotion(Emotions e) {

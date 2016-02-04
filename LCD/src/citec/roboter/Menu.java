@@ -1,4 +1,5 @@
 package citec.roboter;
+import citec.Threads.Motor;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.GraphicsLCD;
@@ -19,18 +20,25 @@ public class Menu {
 	
 		
 		int activeMenuPoint = 20;
-		
+		Motor m = new Motor();
 		while(!exit){
 			lcd.clear();
 			drawMenuText();
 			drawActiveMenuBars(activeMenuPoint);
 			Button.waitForAnyPress();
-			if (Button.readButtons() == Button.ID_DOWN && activeMenuPoint < menuPointDistance*3+activeMenuPoint){
+			if (Button.readButtons() == Button.ID_DOWN && activeMenuPoint < 80){
 				activeMenuPoint += menuPointDistance;
+			}
+			else if(Button.readButtons() == Button.ID_DOWN){
+				m.headDown(360);
 			}
 			if (Button.readButtons() == Button.ID_UP && activeMenuPoint > 20){
 				activeMenuPoint -= menuPointDistance;
 			}
+			else if(Button.readButtons() == Button.ID_UP){
+				m.headUp(360);
+			}
+			
 			if (Button.readButtons() == Button.ID_RIGHT){
 				if (activeMenuPoint == 20+menuPointDistance*1 && lengthOfDay < 1000){
 					lengthOfDay += 1;
