@@ -142,12 +142,21 @@ public class Tamagotchi{
 		
 		while(alive==true){
 			newDay();
-			Delay.msDelay(1000);
+			Delay.msDelay(100);
 		}
 	}
 	
 
 	private void calculateEmotion() {
+		if(shownEmotion==Emotions.Offended){
+
+			setAction(Actions.None);
+			shownEmotion = Emotions.Normal;
+			
+			motor.setEmotion(Emotions.Normal);
+			sound.setEmotion(Emotions.Normal);
+			display.setEmotion(Emotions.Normal);
+		}
 		int tmpMaxPrio = 0;
 		Emotions tmpNewEmotion = shownEmotion;
 		if (wellbeing < 15){
@@ -225,6 +234,13 @@ public class Tamagotchi{
 		
 		// Cleaning Button pressed
 		else if (port == "S4"){
+			if (shownEmotion == Emotions.Bored){
+				if(shownAction != Actions.Playing){
+					setAction(Actions.Playing);
+					
+				}
+				return;
+			}
 			if (shownAction == Actions.Cleaning){
 				shownAction = Actions.None;
 			}
@@ -236,21 +252,14 @@ public class Tamagotchi{
 	}
 	
 	private void calculateAction(){
-		if(shownEmotion==Emotions.Offended){
-
-			shownAction = Actions.None;
-
-			motor.setEmotion(Emotions.Normal);
-			sound.setEmotion(Emotions.Normal);
-			display.setEmotion(Emotions.Normal);
-		}
+	
 		// Food = Green
 		if (coSensor.getData() == 1){
 			if (food.getValue() >= 90){
 				motor.setEmotion(Emotions.Offended);
 				sound.setEmotion(Emotions.Offended);
 				display.setEmotion(Emotions.Offended);
-				
+				shownEmotion = Emotions.Offended;
 				setAction(Actions.None);
 				return;
 			}
@@ -271,23 +280,16 @@ public class Tamagotchi{
 		}
 		
 		// Playing = Red
-		if (coSensor.getData() == 7){
+	
+		if (coSensor.getData() == 3){
 
-			if(shownAction != Actions.Playing){
-				setAction(Actions.Playing);
+			if(shownAction != Actions.None){
+				setAction(Actions.None);
+				fun.addValue(100);
 			}
 			return;
 		}
-		else{
-			if (coSensor.getData() == 3){
-
-				if(shownAction != Actions.None){
-					setAction(Actions.None);
-					fun.addValue(100);
-				}
-				return;
-			}
-		}
+		
 		
 		
 		if ((gyroSensor.getData()+gyro >= 80 || gyroSensor.getData()+gyro <= -80) && shownEmotion == Emotions.Tired){
@@ -318,7 +320,7 @@ public class Tamagotchi{
 		if (shownAction == Actions.None){
 			calculateEmotion();
 		}
-		counter+=1000;
+		counter+=100;
 		if (counter % speed == 0){
 			age++;
 			wellbeing = 0;
