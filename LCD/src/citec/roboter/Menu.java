@@ -3,6 +3,7 @@ import lejos.hardware.BrickFinder;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.GraphicsLCD;
 
+import lejos.hardware.lcd.LCD;
 public class Menu {
 	private GraphicsLCD lcd;
 	private int lengthOfDay = 1;
@@ -51,6 +52,7 @@ public class Menu {
 					activeMenuPoint = 20;
 					t = new Tamagotchi(lengthOfDay*1000, emotionThreshold*10);
 					lcd.clear();
+					LCD.clear();
 				}
 				if (activeMenuPoint == 20+menuPointDistance*3){
 					exit=true;
