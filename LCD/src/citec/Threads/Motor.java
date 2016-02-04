@@ -23,8 +23,15 @@ public class Motor extends Thread {
 	protected static RegulatedMotor head = new EV3LargeRegulatedMotor(
 			MotorPort.A);
 
-	// Max = -2160 = 6x(-360)
-	// Min = 1800 = 5*(360)
+	
+	public void headUp(int degree){
+		head.rotate(-degree);
+		
+	}
+	
+	public void headDown(int degree){
+		head.rotate(degree);
+	}
 
 	public void setEmotion(Emotions e) {
 

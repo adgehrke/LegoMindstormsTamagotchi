@@ -41,8 +41,23 @@ public class Need implements Comparable<Need>{
 		if (difference < 1) {
 			difference = 1;
 		}
-		value -= priority;
 		
+		if (value-priority > 0){
+			value -= priority;
+		}
+		else{
+			value = 0;
+		}
+		
+			
+		
+	}
+	
+	public void addValue(int val){
+		this.value += val;
+		if (this.value > 100){
+			this.value = 100;
+		}
 	}
 	
 	public void setEmotion(Emotions e){

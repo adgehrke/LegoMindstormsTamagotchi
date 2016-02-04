@@ -74,9 +74,7 @@ public class Tamagotchi{
 	 * 
 	 */
 	
-	public void sensorPressed(String port){
-		
-	}
+	
 	public Tamagotchi(int lengthOfDay, int emotionThreshold){
 		
 		
@@ -201,37 +199,37 @@ public class Tamagotchi{
 		
 	}
 	
-
-	private void calculateAction(){
-		shownAction = Actions.None;
-		
-		// Healing Button pressed
-		if (touchSensorHealing.isPressed()){
+	public void sensorPressed(String port){
+		if (port == "S1"){
 			if (shownAction == Actions.Healing){
 				shownAction = Actions.None;
 			}
 			else if(shownAction == Actions.None){
 				shownAction = Actions.Healing;
-				health.setValue(health.getValue()+100);
+				health.addValue(50);
 			}
 		}
 		
 		// Cleaning Button pressed
-		if (touchSensorCleaning.isPressed()){
+		else if (port == "S4"){
 			if (shownAction == Actions.Cleaning){
 				shownAction = Actions.None;
 			}
 			else if(shownAction == Actions.None){
 				shownAction = Actions.Cleaning;
-				cleanliness.setValue(cleanliness.getValue()+100);
+				cleanliness.addValue(50);
 			}
 		}
-		
+	}
+	
+
+	private void calculateAction(){
+		shownAction = Actions.None;
 		// Food = Green
 		if (coSensor.getData() == 1){
 
-			food.setValue(food.getValue()+50);
-			fun.setValue(fun.getValue()+50);
+			food.addValue(100);
+			fun.addValue(100);
 			
 			if(shownAction != Actions.Eating){
 				setAction(Actions.Eating);
@@ -249,17 +247,15 @@ public class Tamagotchi{
 			if(shownAction == Actions.None){
 				setAction(Actions.Sleeping);
 				
-				sleep.setValue(sleep.getValue()+100);
+				sleep.addValue(100);
 			}
 			else if(shownAction == Actions.Sleeping){
-				sleep.setValue(sleep.getValue()+100);
+				sleep.addValue(100);
 			}
 		}
 		else{
-				setAction(Actions.None);
-				
+			setAction(Actions.None);		
 		}
-		
 	}
 	
 	private void setAction(Actions a){
@@ -278,6 +274,7 @@ public class Tamagotchi{
 			for(Need n: needs){
 				n.calculatePriority(age);
 				n.calculateValue(age);
+				
 				wellbeing+=n.getValue();
 			}
 			
