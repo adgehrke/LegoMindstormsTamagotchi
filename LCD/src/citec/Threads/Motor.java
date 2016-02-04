@@ -23,13 +23,12 @@ public class Motor extends Thread {
 	protected static RegulatedMotor head = new EV3LargeRegulatedMotor(
 			MotorPort.A);
 
-	
-	public void headUp(int degree){
+	public void headUp(int degree) {
 		head.rotate(-degree);
-		
+
 	}
-	
-	public void headDown(int degree){
+
+	public void headDown(int degree) {
 		head.rotate(degree);
 	}
 
@@ -54,13 +53,13 @@ public class Motor extends Thread {
 	}
 
 	public void toInitialPosition() {
-		//System.out.println(head.getTachoCount());
+		// System.out.println(head.getTachoCount());
 		left.stop();
 		right.stop();
 		head.stop();
-		//System.out.println(head.getTachoCount());
+		// System.out.println(head.getTachoCount());
 		head.rotateTo(0);
-		//System.out.println(head.getTachoCount());
+		// System.out.println(head.getTachoCount());
 	}
 
 	public void run() {
@@ -126,8 +125,14 @@ public class Motor extends Thread {
 
 	// Bewegung: F�hrt gradeaus, bis schwarze-Randlinie, dreht sich min 90�
 	// max 270�
+	
 	private void playing() {
 		head.rotate(1800);
+		left.setSpeed(600);
+		right.setSpeed(600);
+		while(!terminated){
+			driveForward();
+		}
 		// TODO Auto-generated method stub
 
 	}
@@ -174,6 +179,11 @@ public class Motor extends Thread {
 	}
 
 	private void offended() {
+		left.setSpeed(700);
+		right.setSpeed(700);
+		driveBackward();
+		Delay.msDelay(100);
+		terminate();
 		// TODO Auto-generated method stub
 
 	}
@@ -238,11 +248,15 @@ public class Motor extends Thread {
 		driveBackward();
 		Delay.msDelay(150);
 		driveRight();
-		Delay.msDelay(300);
+		Delay.msDelay(5000);
 
 	}
 
 	private void dying() {
+		left.setSpeed(100);
+		right.setSpeed(100);
+		head.rotateTo(1800);
+		driveBackward();
 		// TODO Auto-generated method stub
 
 	}
