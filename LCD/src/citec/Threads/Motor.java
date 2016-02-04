@@ -183,7 +183,7 @@ public class Motor extends Thread {
 		right.setSpeed(700);
 		driveBackward();
 		Delay.msDelay(100);
-		this.setAction(Actions.None);
+		this.setEmotion(Emotions.Happy);
 		// TODO Auto-generated method stub
 
 	}
