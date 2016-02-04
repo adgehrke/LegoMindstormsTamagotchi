@@ -19,6 +19,7 @@ import javax.swing.Timer;
 
 import citec.Threads.Action;
 import citec.Threads.Display;
+import citec.Threads.Motor;
 import citec.Threads.Sounds;
 import Emotion.Emotions;
 
@@ -52,7 +53,7 @@ public class Tamagotchi{
 	Integer emotionThreshold = 50;
 	
 	Display display = new Display();
-	//Motor motor = new Motor();
+	Motor motor = new Motor();
 	Sounds sound = new Sounds();
 	
 
@@ -124,7 +125,7 @@ public class Tamagotchi{
 		age = 0;
 
 		
-		//motor.start();
+		motor.start();
 		display.start();
 		sound.start();
 		
@@ -170,7 +171,7 @@ public class Tamagotchi{
 			
 			shownEmotion = tmpNewEmotion;
 
-			//motor.setEmotion(shownEmotion);
+			motor.setEmotion(shownEmotion);
 			display.setEmotion(shownEmotion);
 			sound.setEmotion(shownEmotion);
 			
@@ -183,7 +184,7 @@ public class Tamagotchi{
 			
 			shownEmotion = normalEmotion;
 
-			//motor.setEmotion(shownEmotion);
+			motor.setEmotion(shownEmotion);
 			display.setEmotion(shownEmotion);
 			sound.setEmotion(shownEmotion);
 		}
@@ -226,26 +227,20 @@ public class Tamagotchi{
 			fun.setValue(fun.getValue()+50);
 			
 			if(shownAction != Actions.Eating){
-				shownAction = Actions.Eating;
-				sound.setAction(Actions.Eating);
-				display.setAction(Actions.Eating);
+				setAction(Actions.Eating);
 			}
 			return;
 		}
 		else{
 			if (shownAction == Actions.Eating){
-				shownAction = Actions.None;
-				sound.setAction(Actions.None);
-				display.setAction(Actions.None);
+				setAction(Actions.None);
 			}
 		}
 		
 		// Sleeping
 		if (gyroSensor.getData() >= 80 || gyroSensor.getData() <= -80){
 			if(shownAction == Actions.None){
-				shownAction = Actions.Sleeping;
-				sound.setAction(Actions.Sleeping);
-				display.setAction(Actions.Sleeping);
+				setAction(Actions.Sleeping);
 				
 				sleep.setValue(sleep.getValue()+100);
 			}
@@ -254,14 +249,18 @@ public class Tamagotchi{
 			}
 		}
 		else{
-				shownAction = Actions.None;
-				sound.setAction(Actions.None);
-				display.setAction(Actions.None);
+				setAction(Actions.None);
 				
 		}
 		
 	}
-
+	
+	private void setAction(Actions a){
+		shownAction = a;
+		sound.setAction(a);
+		display.setAction(a);
+		motor.setAction(a);
+	}
 	private int counter = 0;
 	private void newDay() {
 		calculateAction();

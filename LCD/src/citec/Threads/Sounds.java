@@ -127,7 +127,6 @@ public class Sounds extends Thread{
 
 	private void ill() {
 		Sound.playSample(new File("ill.wav"));
-
 	}
 
 	private void hungry() {
