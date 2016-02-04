@@ -23,20 +23,8 @@ public class Motor extends Thread {
 	protected static RegulatedMotor head = new EV3LargeRegulatedMotor(
 			MotorPort.A);
 
-	
-	//Max = -2160 = 6x(-360)
-	//Min = 1800 = 5*(360)
-	public Motor() {
-		TouchSensor touch = new TouchSensor("S4");
-		touch.start();
-		while (true) {
-			while (!touch.isPressed()) {
-				head.rotate(360);
-			}
-			toInitialPosition();
-
-		}
-	}
+	// Max = -2160 = 6x(-360)
+	// Min = 1800 = 5*(360)
 
 	public void setEmotion(Emotions e) {
 
@@ -132,18 +120,28 @@ public class Motor extends Thread {
 	// Bewegung: F�hrt gradeaus, bis schwarze-Randlinie, dreht sich min 90�
 	// max 270�
 	private void playing() {
+		head.rotate(1800);
 		// TODO Auto-generated method stub
 
 	}
 
 	// Kopf langsam hoch
 	private void healing() {
+		head.rotate(-1500);
 		// TODO Auto-generated method stub
 
 	}
 
 	// Kopf: Kopf runter, Kopf leicht auf/ab
 	private void eating() {
+		head.rotate(1800);
+		while (!terminated) {
+			head.rotate(-300);
+			if (terminated) {
+				return;
+			}
+			head.rotate(300);
+		}
 		// TODO Auto-generated method stub
 
 	}
@@ -199,7 +197,23 @@ public class Motor extends Thread {
 		right.forward();
 	}
 
+	private void driveForward() {
+		left.forward();
+		right.forward();
+	}
+
+	private void driveBackward() {
+
+		left.backward();
+		right.backward();
+	}
+
 	private void ill() {
+		head.rotate(1000);
+		right.setSpeed(200);
+		left.setSpeed(200);
+		left.backward();
+		right.backward();
 		// TODO Auto-generated method stub
 
 	}
@@ -210,7 +224,14 @@ public class Motor extends Thread {
 	}
 
 	private void happy() {
-		// TODO Auto-generated method stub
+		right.setSpeed(600);
+		left.setSpeed(600);
+		driveForward();
+		Delay.msDelay(150);
+		driveBackward();
+		Delay.msDelay(150);
+		driveRight();
+		Delay.msDelay(300);
 
 	}
 
@@ -225,23 +246,12 @@ public class Motor extends Thread {
 	}
 
 	private void bored() {
-		terminated = false;
-		// motorLeft.setSpeed(300);
-		// motorRight.setSpeed(300);
-		while (!terminated) {
-			left.forward();
-			right.stop();
-			Delay.msDelay(150);
-			left.stop();
-			right.backward();
-			Delay.msDelay(150);
-			left.backward();
-			right.stop();
-			Delay.msDelay(150);
-			left.stop();
-			right.forward();
-			Delay.msDelay(150);
-		}
+		right.setSpeed(400);
+		left.setSpeed(400);
+		driveForward();
+		Delay.msDelay(150);
+		driveBackward();
+		Delay.msDelay(150);
 
 	}
 }

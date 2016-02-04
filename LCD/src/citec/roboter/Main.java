@@ -27,8 +27,8 @@ public class Main {
 	 */
 	public static void main(String[] args){
 		
-		new Motor();
-		//new Menu();
+		//new Motor();
+		new Menu();
 		//new Tamagotchi(1000, 50);
 		//testUltrasonicSensor();
 		//testEmotion();
