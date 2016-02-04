@@ -11,7 +11,7 @@ import lejos.utility.Delay;
 
 public class GyroSensor extends Thread{
 	private String port;
-	private SensorModes sensor;
+	private EV3GyroSensor sensor;
 	private float[] data;
 	private SampleProvider gyro;
 	private boolean active;
@@ -23,6 +23,9 @@ public class GyroSensor extends Thread{
 		this.active = false;
 	}
 
+	public void reset(){
+		this.sensor.reset();
+	}
 
 	public String getPort() {
 		return port;
@@ -37,10 +40,6 @@ public class GyroSensor extends Thread{
 		return sensor;
 	}
 
-
-	public void setSensor(SensorModes sensor) {
-		this.sensor = sensor;
-	}
 
 	
 	

@@ -40,7 +40,7 @@ public class Tamagotchi{
 	Emotions normalEmotion = Emotions.Normal;
 	Emotions dyingEmotion = Emotions.Dying;
 	Actions shownAction = Actions.None;
-	
+	float gyro;
 	private int age;
 
 	// Needs
@@ -175,7 +175,9 @@ public class Tamagotchi{
 			// emotion has changed 
 			
 			shownEmotion = tmpNewEmotion;
-
+			if (shownEmotion == Emotions.Tired){
+				gyroSensor.reset();
+			}
 			motor.setEmotion(shownEmotion);
 			display.setEmotion(shownEmotion);
 			sound.setEmotion(shownEmotion);
@@ -193,13 +195,16 @@ public class Tamagotchi{
 				display.setEmotion(shownEmotion);
 				sound.setEmotion(shownEmotion);
 			}
-			// set to normal emotion
-			
-			shownEmotion = normalEmotion;
+			else{
+				// set to normal emotion
+				
+				shownEmotion = normalEmotion;
 
-			motor.setEmotion(shownEmotion);
-			display.setEmotion(shownEmotion);
-			sound.setEmotion(shownEmotion);
+				motor.setEmotion(shownEmotion);
+				display.setEmotion(shownEmotion);
+				sound.setEmotion(shownEmotion);
+			}
+			
 		}
 		
 		//display.drawVal(health.getValue());
@@ -231,7 +236,14 @@ public class Tamagotchi{
 	}
 	
 	private void calculateAction(){
-		shownAction = Actions.None;
+		if(shownEmotion==Emotions.Offended){
+
+			shownAction = Actions.None;
+
+			motor.setEmotion(Emotions.Normal);
+			sound.setEmotion(Emotions.Normal);
+			display.setEmotion(Emotions.Normal);
+		}
 		// Food = Green
 		if (coSensor.getData() == 1){
 			if (food.getValue() >= 90){
@@ -240,7 +252,7 @@ public class Tamagotchi{
 				display.setEmotion(Emotions.Offended);
 				
 				setAction(Actions.None);
-				
+				return;
 			}
 			else{
 				food.addValue(100);
@@ -277,8 +289,8 @@ public class Tamagotchi{
 			}
 		}
 		
-		// Sleeping
-		if (gyroSensor.getData() >= 80 || gyroSensor.getData() <= -80){
+		
+		if ((gyroSensor.getData()+gyro >= 80 || gyroSensor.getData()+gyro <= -80) && shownEmotion == Emotions.Tired){
 			if(shownAction == Actions.None){
 				setAction(Actions.Sleeping);
 				
@@ -313,7 +325,7 @@ public class Tamagotchi{
 			for(Need n: needs){
 				n.calculatePriority(age);
 				
-				if (shownAction == Actions.None && shownEmotion == Emotions.Normal){
+				if (shownAction == Actions.None && (shownEmotion == Emotions.Normal || shownEmotion == Emotions.Happy)){
 					n.calculateValue(age);
 				}
 				

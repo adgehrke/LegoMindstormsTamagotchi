@@ -7,7 +7,7 @@ import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.lcd.LCD;
 public class Menu {
 	private GraphicsLCD lcd;
-	private int lengthOfDay = 10;
+	private int lengthOfDay = 5;
 	private int emotionThreshold = 5;
 	int menuPointDistance = 25;
 	
