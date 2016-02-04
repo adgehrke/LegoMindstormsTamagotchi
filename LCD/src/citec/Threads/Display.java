@@ -87,7 +87,7 @@ public void setEmotion(Emotions e){
 						case Dying:
 							this.dying();
 							break;
-						case Excited:
+						case Happy:
 							this.happy();
 							break;
 						case Hungry:

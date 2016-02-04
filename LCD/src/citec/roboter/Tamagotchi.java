@@ -185,6 +185,14 @@ public class Tamagotchi{
 			// same emotion as before
 		}
 		else{
+			
+			if (wellbeing > 80){
+				shownEmotion = Emotions.Happy;
+
+				motor.setEmotion(shownEmotion);
+				display.setEmotion(shownEmotion);
+				sound.setEmotion(shownEmotion);
+			}
 			// set to normal emotion
 			
 			shownEmotion = normalEmotion;
@@ -222,23 +230,50 @@ public class Tamagotchi{
 		}
 	}
 	
-
 	private void calculateAction(){
 		shownAction = Actions.None;
 		// Food = Green
 		if (coSensor.getData() == 1){
-
-			food.addValue(100);
-			//fun.addValue(100);
-			
-			if(shownAction != Actions.Eating){
-				setAction(Actions.Eating);
+			if (food.getValue() >= 90){
+				motor.setEmotion(Emotions.Offended);
+				sound.setEmotion(Emotions.Offended);
+				display.setEmotion(Emotions.Offended);
+				
+				setAction(Actions.None);
+				
+			}
+			else{
+				food.addValue(100);
+				//fun.addValue(100);
+				
+				if(shownAction != Actions.Eating){
+					setAction(Actions.Eating);
+				}
 			}
 			return;
 		}
 		else{
 			if (shownAction == Actions.Eating){
 				setAction(Actions.None);
+			}
+		}
+		
+		// Playing = Red
+		if (coSensor.getData() == 2){
+
+			if(shownAction != Actions.Playing){
+				setAction(Actions.Playing);
+			}
+			return;
+		}
+		else{
+			if (coSensor.getData() == 3){
+
+				if(shownAction != Actions.None){
+					setAction(Actions.None);
+					fun.addValue(100);
+				}
+				return;
 			}
 		}
 		

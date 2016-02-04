@@ -4,7 +4,7 @@ public enum Emotions {
 	Bored,
 	Dirty,
 	Dying,
-	Excited,
+	Happy,
 	Hungry,
 	Ill,
 	Normal,

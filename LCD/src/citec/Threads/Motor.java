@@ -98,7 +98,7 @@ public class Motor extends Thread {
 					case Dying:
 						this.dying();
 						break;
-					case Excited:
+					case Happy:
 						this.happy();
 						break;
 					case Hungry:
