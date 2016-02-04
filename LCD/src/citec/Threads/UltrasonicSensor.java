@@ -1,4 +1,4 @@
-package citec.roboter;
+package citec.Threads;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;

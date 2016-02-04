@@ -18,9 +18,12 @@ import java.util.List;
 import javax.swing.Timer;
 
 import citec.Threads.Action;
+import citec.Threads.ColorSensor;
 import citec.Threads.Display;
+import citec.Threads.GyroSensor;
 import citec.Threads.Motor;
 import citec.Threads.Sounds;
+import citec.Threads.TouchSensor;
 import Emotion.Emotions;
 
 
@@ -58,10 +61,10 @@ public class Tamagotchi{
 	
 
 	//TouchSensor touchSensorCleaning = new TouchSensor("S1");
-	ColorSensor coSensor = new ColorSensor("S3");
-	GyroSensor gyroSensor = new GyroSensor("S2");
-	TouchSensor touchSensorHealing = new TouchSensor("S4");
-	TouchSensor touchSensorCleaning = new TouchSensor("S1");
+	ColorSensor coSensor = new ColorSensor("S2");
+	GyroSensor gyroSensor = new GyroSensor("S3");
+	TouchSensor touchSensorHealing = new TouchSensor("S1", this);
+	TouchSensor touchSensorCleaning = new TouchSensor("S4", this);
 	
 	
 	
@@ -71,6 +74,9 @@ public class Tamagotchi{
 	 * 
 	 */
 	
+	public void sensorPressed(String port){
+		
+	}
 	public Tamagotchi(int lengthOfDay, int emotionThreshold){
 		
 		

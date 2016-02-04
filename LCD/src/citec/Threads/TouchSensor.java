@@ -1,4 +1,5 @@
-package citec.roboter;
+package citec.Threads;
+import citec.roboter.Tamagotchi;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
@@ -18,7 +19,13 @@ public class TouchSensor extends Thread{
 	private float[] data;
 	private int test;
 	
-	public TouchSensor(String port){
+	private Tamagotchi listener;
+	
+	public void addListener(Tamagotchi t){
+		listener = t;
+	}
+	public TouchSensor(String port, Tamagotchi t){
+		addListener(t);
 		this.port = port;
 		/*this.sensor = new EV3UltrasonicSensor(LocalEV3.get().getPort("S2")); 
 		this.distance = sensor.getMode("Distance"); 
@@ -46,16 +53,20 @@ public class TouchSensor extends Thread{
 	public void run(){
 		while (true){
 			sensor.fetchSample(data, 0);
-			
 		    if (data[0] == 0){
 		    	isPressed = false;
 		    }
 		    else{
-		    	isPressed = true;
+		    	setPressed(true);
 		    }
 		     
 			//distance.fetchSample(this.data,0);
 		}
+	}
+	
+	private void setPressed(boolean f){
+		listener.sensorPressed(this.port);
+		isPressed = f;
 	}
 
 	

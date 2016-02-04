@@ -1,5 +1,8 @@
 package citec.roboter;
+import citec.Threads.ColorSensor;
 import citec.Threads.Display;
+import citec.Threads.Motor;
+import citec.Threads.UltrasonicSensor;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -23,7 +26,9 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		new Menu();
+		
+		new Motor();
+		//new Menu();
 		//new Tamagotchi(1000, 50);
 		//testUltrasonicSensor();
 		//testEmotion();
@@ -66,16 +71,6 @@ public class Main {
 		
 	}
 	
-	private static void finishAfterButtonPress(){
-		EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
-		SimpleTouch touch=new SimpleTouch(sensor);
-		
-		while (true) {
-	    	if (touch.isPressed()){
-	    		break;
-	    	}
-		}
-	}
 	
 	private static void testEmotion(){
 		/*EV3TouchSensor sensor = new EV3TouchSensor(SensorPort.S1);
