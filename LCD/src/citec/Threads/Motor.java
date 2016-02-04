@@ -54,13 +54,13 @@ public class Motor extends Thread {
 	}
 
 	public void toInitialPosition() {
-		System.out.println(head.getTachoCount());
+		//System.out.println(head.getTachoCount());
 		left.stop();
 		right.stop();
 		head.stop();
-		System.out.println(head.getTachoCount());
+		//System.out.println(head.getTachoCount());
 		head.rotateTo(0);
-		System.out.println(head.getTachoCount());
+		//System.out.println(head.getTachoCount());
 	}
 
 	public void run() {

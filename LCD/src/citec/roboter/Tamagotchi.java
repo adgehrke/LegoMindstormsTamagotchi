@@ -206,7 +206,7 @@ public class Tamagotchi{
 			}
 			else if(shownAction == Actions.None){
 				shownAction = Actions.Healing;
-				health.addValue(50);
+				health.addValue(100);
 			}
 		}
 		
@@ -217,7 +217,7 @@ public class Tamagotchi{
 			}
 			else if(shownAction == Actions.None){
 				shownAction = Actions.Cleaning;
-				cleanliness.addValue(50);
+				cleanliness.addValue(100);
 			}
 		}
 	}
@@ -229,7 +229,7 @@ public class Tamagotchi{
 		if (coSensor.getData() == 1){
 
 			food.addValue(100);
-			fun.addValue(100);
+			//fun.addValue(100);
 			
 			if(shownAction != Actions.Eating){
 				setAction(Actions.Eating);
@@ -267,13 +267,20 @@ public class Tamagotchi{
 	private int counter = 0;
 	private void newDay() {
 		calculateAction();
+
+		if (shownAction == Actions.None){
+			calculateEmotion();
+		}
 		counter+=1000;
 		if (counter % speed == 0){
 			age++;
 			wellbeing = 0;
 			for(Need n: needs){
 				n.calculatePriority(age);
-				n.calculateValue(age);
+				
+				if (shownAction == Actions.None && shownEmotion == Emotions.Normal){
+					n.calculateValue(age);
+				}
 				
 				wellbeing+=n.getValue();
 			}
@@ -288,13 +295,11 @@ public class Tamagotchi{
 			int y = 1;
 			for(Need n: needs){
 				y++;
-				LCD.drawString(n.getName().substring(0, 3) + n.getValue() + ", " + n.getPriority(), 0, y);
+				//LCD.drawString(n.getName().substring(0, 3) + n.getValue() + ", " + n.getPriority(), 0, y);
 			}
-			LCD.drawString("Wellbeing" + wellbeing, 0, 7);
+			//LCD.drawString("Wellbeing" + wellbeing, 0, 7);
 			
-			if (shownAction == Actions.None){
-				calculateEmotion();
-			}
+			
 		}
 		
 		

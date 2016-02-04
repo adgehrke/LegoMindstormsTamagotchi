@@ -34,12 +34,12 @@ public class Display extends Thread{
 	
 	public void drawVal(int val){
 		lcd.setColor(255, 255, 255);
-		lcd.drawLine(0, 0, 0, 1000);
-		lcd.drawLine(1, 0, 1, 1000);
+		//lcd.drawLine(0, 0, 0, 1000);
+		//lcd.drawLine(1, 0, 1, 1000);
 		
 		lcd.setColor(0,0,0);
-		lcd.drawLine(0, 0, 0, val);
-		lcd.drawLine(1, 0, 1, val);
+		//lcd.drawLine(0, 0, 0, val);
+		//lcd.drawLine(1, 0, 1, val);
 		
 	}
 public void setEmotion(Emotions e){
@@ -118,18 +118,18 @@ public void setEmotion(Emotions e){
 	public void drawEyes(){
 		yOffset = (this.height-eyesHeight)/2+10;
 		
-		lcd.drawRect(xOffset,yOffset, eyesWidth, eyesHeight);
-		lcd.drawRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, eyesHeight);
+		//lcd.drawRect(xOffset,yOffset, eyesWidth, eyesHeight);
+		//lcd.drawRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, eyesHeight);
 		
-		lcd.drawRect(xOffset-1,yOffset-1, eyesWidth+2, eyesHeight+2);
-		lcd.drawRect(this.width-eyesWidth-xOffset-1,yOffset-1, eyesWidth+2, eyesHeight+2);
+		//lcd.drawRect(xOffset-1,yOffset-1, eyesWidth+2, eyesHeight+2);
+		//lcd.drawRect(this.width-eyesWidth-xOffset-1,yOffset-1, eyesWidth+2, eyesHeight+2);
 	}
 	
 	
 	public void happy(){	
 		this.clear();
 		this.drawEyes();
-		lcd.drawString("Happy", 0, 0, 0);
+		//lcd.drawString("Happy", 0, 0, 0);
 		
 		// Pupils
 		drawPupils(15, 0, -(eyesHeight/2)-10);
@@ -141,7 +141,7 @@ public void setEmotion(Emotions e){
 	public void dirty(){	
 		this.clear();
 		this.drawEyes();
-		lcd.drawString("Dirty", 0, 0, 0);
+		//lcd.drawString("Dirty", 0, 0, 0);
 		
 		// Pupils
 		drawPupils(55, 0, -(eyesHeight/2)-10);
@@ -153,7 +153,7 @@ public void setEmotion(Emotions e){
 	public void dying(){	
 		this.clear();
 		this.drawEyes();
-		lcd.drawString("Dying", 0, 0, 0);
+		//lcd.drawString("Dying", 0, 0, 0);
 		
 		// Pupils
 		int thickness = 2;
@@ -172,7 +172,7 @@ public void setEmotion(Emotions e){
 	public void hungry(){	
 		this.clear();
 		this.drawEyes();
-		lcd.drawString("Hungry", 0, 0, 0);
+		//lcd.drawString("Hungry", 0, 0, 0);
 		
 		// Pupils
 		drawPupils(15, 0, -(eyesHeight/2)-10);
@@ -184,7 +184,7 @@ public void setEmotion(Emotions e){
 	public void bored(){	
 		this.clear();
 		this.drawEyes();
-		lcd.drawString("Bored", 0, 0, 0);
+		//lcd.drawString("Bored", 0, 0, 0);
 		
 		// Pupils
 		drawPupils(30, 0, -(eyesHeight/2));
@@ -197,13 +197,13 @@ public void setEmotion(Emotions e){
 		this.clear();
 		
 		for(int i=0;i<3;i++){
-			lcd.drawString("Normal", 0, 0, 0);
+			//lcd.drawString("Normal", 0, 0, 0);
 			lcd.fillRect(xOffset,yOffset, eyesWidth, eyesHeight);
 			lcd.fillRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, eyesHeight);
 			Delay.msDelay(300);
 			this.clear();
 			this.drawEyes();
-			lcd.drawString("Normal", 0, 0, 0);
+			//lcd.drawString("Normal", 0, 0, 0);
 			// Pupils
 			drawPupils(15, 0, -(eyesHeight/2)-10);
 			Delay.msDelay(2000);
@@ -216,12 +216,12 @@ public void setEmotion(Emotions e){
 	
 	public void eating(){
 		this.clear();
-		lcd.drawString("Eating", 0, 0, 0);
+		//lcd.drawString("Eating", 0, 0, 0);
 	}
 	
 	public void sleeping(){	
 		this.clear();
-		lcd.drawString("Sleeping", 0, 0, 0);
+		//lcd.drawString("Sleeping", 0, 0, 0);
 		lcd.fillRect(xOffset,yOffset, eyesWidth, eyesHeight-5);		
 	}
 	
@@ -241,7 +241,7 @@ public void setEmotion(Emotions e){
 		for (int i = 0; i<10; i++){
 			this.clear();
 			this.drawEyes();
-			lcd.drawString("Happy", 0, 0, 0);
+			//lcd.drawString("Happy", 0, 0, 0);
 			int offsetX = randInt(-10,10);
 			int offsetY = randInt(-10,10);
 			
@@ -261,7 +261,7 @@ public void setEmotion(Emotions e){
 		
 		this.clear();
 		this.drawEyes();
-		lcd.drawString("Tired", 0, 0, 0);
+		//lcd.drawString("Tired", 0, 0, 0);
 		
 		lcd.fillRect(xOffset,yOffset, eyesWidth, (int) Math.round(eyesHeight/1.5));
 		lcd.fillRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, (int) Math.round(eyesHeight/1.5));
@@ -280,7 +280,7 @@ public void setEmotion(Emotions e){
 		
 		this.clear();
 		this.drawEyes();
-		lcd.drawString("Ill", 0, 0, 0);
+		//lcd.drawString("Ill", 0, 0, 0);
 		
 		lcd.fillRect(xOffset,yOffset, eyesWidth, (int) Math.round(eyesHeight/1.5));
 		lcd.fillRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, (int) Math.round(eyesHeight/1.5));
@@ -300,7 +300,7 @@ public void healing(){
 		for(int i = (int) Math.round(eyesHeight/1.5);i>0;i--){
 			this.clear();
 			this.drawEyes();
-			lcd.drawString("Healing", 0, 0, 0);
+			//lcd.drawString("Healing", 0, 0, 0);
 			
 			lcd.fillRect(xOffset,yOffset, eyesWidth, i);
 			lcd.fillRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, i);
@@ -324,7 +324,7 @@ public void healing(){
 		this.clear();
 		this.drawEyes();
 		
-		lcd.drawString("Offended", 0, 0, 0);
+		//lcd.drawString("Offended", 0, 0, 0);
 		lcd.fillRect(xOffset,yOffset, eyesWidth, eyesHeight/3);
 		lcd.fillRect(this.width-eyesWidth-xOffset,yOffset, eyesWidth, eyesHeight/3);
 		
@@ -343,7 +343,7 @@ public void healing(){
 	
 	public void drawThickLine(int x0, int y0, int x1, int y1, int thickness){
 		for(int i = 0; i<thickness; i++){
-			lcd.drawLine(x0, y0+i, x1, y1+i);
+			//lcd.drawLine(x0, y0+i, x1, y1+i);
 		}
 	}
 	
