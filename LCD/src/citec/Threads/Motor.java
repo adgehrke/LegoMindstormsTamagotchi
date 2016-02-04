@@ -183,7 +183,7 @@ public class Motor extends Thread {
 		right.setSpeed(700);
 		driveBackward();
 		Delay.msDelay(100);
-		terminate();
+		this.setAction(Actions.None);
 		// TODO Auto-generated method stub
 
 	}
