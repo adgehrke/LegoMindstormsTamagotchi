@@ -152,19 +152,20 @@ public class Tamagotchi{
 	private void calculateEmotion() {
 		int tmpMaxPrio = 0;
 		Emotions tmpNewEmotion = shownEmotion;
-		/*if (wellbeing < 15){
+		if (wellbeing < 15){
 			this.alive = false;
+			motor.setEmotion(shownEmotion);	
+			setAction(Actions.None);
 			return;
 		}
 		else if(wellbeing<20){
 			if (shownEmotion != dyingEmotion) {
 				shownEmotion = dyingEmotion;
 				display.setEmotion(shownEmotion);
-				//sound.setEmotion(shownEmotion);
-				//motor.setEmotion(shownEmotion);	
+				sound.setEmotion(shownEmotion);
 			}
 			return;
-		}*/
+		}
 		
 		for (Need need : needs) {
 			if (need.getValue() < emotionThreshold && need.getPriority() > tmpMaxPrio) {
