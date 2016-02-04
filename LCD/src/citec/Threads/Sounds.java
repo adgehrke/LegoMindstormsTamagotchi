@@ -135,6 +135,7 @@ public class Sounds extends Thread{
 
 	private void happy() {
 		// TODO Auto-generated method stub
+		//Sound.playSample(new File("happy.wav"));
 	}
 
 	private void dying() {

@@ -271,7 +271,7 @@ public class Tamagotchi{
 		}
 		
 		// Playing = Red
-		if (coSensor.getData() == 2){
+		if (coSensor.getData() == 7){
 
 			if(shownAction != Actions.Playing){
 				setAction(Actions.Playing);
