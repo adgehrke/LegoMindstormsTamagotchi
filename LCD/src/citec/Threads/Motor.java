@@ -125,12 +125,12 @@ public class Motor extends Thread {
 
 	// Bewegung: F�hrt gradeaus, bis schwarze-Randlinie, dreht sich min 90�
 	// max 270�
-	
+
 	private void playing() {
 		head.rotate(1800);
 		left.setSpeed(600);
 		right.setSpeed(600);
-		while(!terminated){
+		while (!terminated) {
 			driveForward();
 		}
 		// TODO Auto-generated method stub
@@ -269,10 +269,12 @@ public class Motor extends Thread {
 	private void bored() {
 		right.setSpeed(400);
 		left.setSpeed(400);
-		driveForward();
-		Delay.msDelay(150);
-		driveBackward();
-		Delay.msDelay(150);
+		while (!terminated) {
+			driveForward();
+			Delay.msDelay(150);
+			driveBackward();
+			Delay.msDelay(150);
+		}
 
 	}
 }
